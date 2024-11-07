@@ -1,13 +1,17 @@
 package kartverket.no.plugins
 
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.ContentType
+import io.ktor.server.application.Application
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
+import kartverket.no.generateRiSc.generateRiScRoutes
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
+        get("/health") {
+            call.respondText("All good!", ContentType.Text.Plain)
         }
+        generateRiScRoutes()
     }
 }
