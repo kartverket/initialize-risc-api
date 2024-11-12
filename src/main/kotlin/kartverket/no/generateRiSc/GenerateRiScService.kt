@@ -35,7 +35,7 @@ object GenerateRiScService {
             sopsConfig,
             riScContent.schemaVersion,
             Json.encodeToString(riScContent),
-            UserInfo("Georg CI", "georg@kartverket.no"),
+            UserInfo("Georg CI", "Georg.Robot@kartverket.no"),
         )
     }
 
