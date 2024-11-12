@@ -5,12 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RiScContent(
-    val schemaVersion: String = "4.0",
-    val title: String = "Initiell RoS-vurdering",
-    val scope: String =
-        "Denne RoS'en er generert fra opplysninger om kodebasen i kartverket.dev, " +
-            "sikkerhetsmetrikker og sikkerhetskontrollere. " +
-            "DEN ER IKKE KOMPLETT, men et utgangspunkt for teamet til å gjøre sine egne vurderinger.",
+    val schemaVersion: String,
+    val title: String,
+    val scope: String,
     val valuations: List<RiScValuation>,
     val scenarios: List<RiScScenario>,
 )
@@ -25,32 +22,106 @@ data class RiScValuation(
 
 @Serializable
 data class RiScScenario(
-    @SerialName("ID") val id: String,
     val title: String,
-    val actions: List<RiScScenarioAction>,
-    val description: String,
-    val remainingRisk: Risk,
-    val risk: Risk,
-    val threatActors: List<String>,
-    val vulnerabilities: List<String>,
+    val scenario: Scenario,
 )
+
+@Serializable
+data class Scenario(
+    @SerialName("ID") val id: String,
+    val description: String,
+    val threatActors: List<ThreatActor>,
+    val vulnerabilities: List<Vulnerability>,
+    val risk: Risk,
+    val actions: List<RiScScenarioAction>,
+    val remainingRisk: Risk,
+)
+
+@Serializable
+enum class ThreatActor {
+    @SerialName("Script kiddie")
+    SCRIPT_KIDDIE,
+
+    @SerialName("Hacktivist")
+    HACKTIVIST,
+
+    @SerialName("Reckless employee")
+    RECKLESS_EMPLOYEE,
+
+    @SerialName("Insider")
+    INSIDER,
+
+    @SerialName("Organised crime")
+    ORGANIZED_CRIME,
+
+    @SerialName("Terrorist organisation")
+    TERRORIST_ORGANIZATION,
+
+    @SerialName("Nation/government")
+    NATION_GOVERNMENT,
+}
+
+@Serializable
+enum class Vulnerability {
+    @SerialName("Flawed design")
+    FLAWED_DESIGN,
+
+    @SerialName("Misconfiguration")
+    MISCONFIGURATION,
+
+    @SerialName("Dependency vulnerability")
+    DEPENDENCY_VULNERABILITY,
+
+    @SerialName("Unauthorized access")
+    UNAUTHORIZED_ACCESS,
+
+    @SerialName("Unmonitored use")
+    UNMONITORED_USE,
+
+    @SerialName("Input tampering")
+    INPUT_TAMPERING,
+
+    @SerialName("Information leak")
+    INFORMATION_LEAK,
+
+    @SerialName("Excessive use")
+    EXCESSIVE_USE,
+}
 
 @Serializable
 data class Risk(
     val consequence: Int,
-    val probability: Int,
+    val probability: Float,
 )
 
 @Serializable
 data class RiScScenarioAction(
-    val action: RiScScenarioActionInfo,
     val title: String,
+    val action: RiScScenarioActionInfo,
 )
 
 @Serializable
 data class RiScScenarioActionInfo(
     @SerialName("ID") val id: String,
     val description: String,
-    val status: String,
+    val status: RiScScenarioActionStatus,
     val url: String,
 )
+
+@Serializable
+enum class RiScScenarioActionStatus {
+    @SerialName("Not started")
+    NOT_STARTED,
+
+    @SerialName("In progress")
+    IN_PROGRESS,
+
+    @SerialName("On hold")
+    ON_HOLD,
+
+    @SerialName("Completed")
+    COMPLETED,
+
+    @SerialName("Aborted")
+    ABORTED,
+}

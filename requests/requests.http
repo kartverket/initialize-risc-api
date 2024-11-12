@@ -1,6 +1,9 @@
-POST localhost:8085/generate/gdksfjds
+POST localhost:8085/generate/sikkerhetsmetrikker
 Content-Type: application/json
 
 {
-  "gcpProjectId": "skvis-prod-9329"
+  "gcpProjectId": "infradrift-prod-e6c9"
 }
+
+### Health
+GET localhost:8085/health

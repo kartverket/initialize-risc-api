@@ -26,7 +26,6 @@ object GenerateRiScConfig {
 object SecuirtyMetricsConfig {
     val path: String = "securityMetrics"
     lateinit var baseUrl: String
-    lateinit var gcpKmsResourceIdPath: String
     lateinit var securityMetricsPath: String
     lateinit var clientId: String
 }

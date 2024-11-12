@@ -16,7 +16,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 fun main(args: Array<String>) {
-    println("Env var: ${System.getenv("SIKKERHETSMETRIKKER_BASE_URL")}")
     io.ktor.server.netty.EngineMain
         .main(args)
 }
@@ -44,8 +43,6 @@ private fun loadConfig(
         SecuirtyMetricsConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
                 ?: throw AppConfigInitializationException("$path.baseUrl", logger)
-            gcpKmsResourceIdPath = config.propertyOrNull("$path.gcpKmsResourceIdPath")?.getString()
-                ?: throw AppConfigInitializationException("$path.gcpKmsResourceIdPath", logger)
             securityMetricsPath = config.propertyOrNull("$path.securityMetricsPath")?.getString()
                 ?: throw AppConfigInitializationException("$path.securityMetricsPath", logger)
             clientId = config.propertyOrNull("$path.clientId")?.getString()

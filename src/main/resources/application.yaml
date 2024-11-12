@@ -13,8 +13,7 @@ generateRiSc:
 
 securityMetrics:
   baseUrl: $SIKKERHETSMETRIKKER_BASE_URL
-  gcpKmsResourceIdPath: 'api/risc/cryptoKey'
-  securityMetricsPath: 'api/metrikker/'
+  securityMetricsPath: 'api/metrikker'
   clientId: $SIKKERHETSMETRIKKER_CLIENT_ID
 
 entraId:

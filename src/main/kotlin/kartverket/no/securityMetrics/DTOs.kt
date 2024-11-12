@@ -12,7 +12,7 @@ data class SecurityMetricsResponse(
     val dependabot: DependabotMetrics,
     val codeScanning: CodeScanningMetrics,
     val secretScanning: SecretScanningMetrics,
-    val sysdig: List<SysdigMetrics>?,
+    val sysdig: List<SysdigMetrics>? = null,
 )
 
 @Serializable
@@ -26,7 +26,7 @@ data class VulnerabilityCount(
 @Serializable
 data class DependabotMetrics(
     val configuredDependabot: Boolean,
-    val vulnerabilities: VulnerabilityCount,
+    val vulnerabilities: VulnerabilityCount? = null,
 )
 
 @Serializable
@@ -40,7 +40,7 @@ data class CodeScanningConfiguration(
 @Serializable
 data class CodeScanningMetrics(
     val configuration: CodeScanningConfiguration,
-    val vulnerabilities: VulnerabilityCount,
+    val vulnerabilities: VulnerabilityCount? = null,
 )
 
 @Serializable

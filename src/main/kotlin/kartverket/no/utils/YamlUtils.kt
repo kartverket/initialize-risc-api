@@ -15,6 +15,4 @@ object YamlUtils {
                 JsonInclude.Include.NON_NULL,
             ).registerKotlinModule()
             .writeValueAsString(t)
-
-    inline fun <reified T> mapFromYamlString(t: String) = ObjectMapper(yamlFactory).registerKotlinModule().readValue(t, T::class.java)
 }
