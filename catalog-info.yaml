@@ -1,0 +1,30 @@
+# nonk8s
+apiVersion: "backstage.io/v1alpha1"
+kind: "Component"
+metadata:
+  name: "initialize-risc-api"
+  tags:
+    - "internal"
+spec:
+  type: "service"
+  lifecycle: "production"
+  owner: "skvis"
+  system: "ros-as-code"
+  providesApis:
+    - "initialize-risc-api"
+---
+apiVersion: "backstage.io/v1alpha1"
+kind: "API"
+metadata:
+  name: "initialize-risc-api"
+  tags:
+    - "internal"
+spec:
+  type: "openapi"
+  lifecycle: "production"
+  owner: "skvis"
+  definition: |
+    openapi: "3.0.0"
+    info:
+        title: Initialize RiSc API
+    paths:
