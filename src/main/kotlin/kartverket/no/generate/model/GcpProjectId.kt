@@ -1,5 +1,9 @@
-package kartverket.no.generateRiSc.model
+package kartverket.no.generate.model
 
+import kartverket.no.utils.ValidationResultContent
+import kotlinx.serialization.Serializable
+
+@Serializable
 @JvmInline
 value class GcpProjectId(
     val value: String,
@@ -15,3 +19,10 @@ fun GcpProjectId.toRiScCryptoResourceId() =
     "projects/${this.value}/locations/europe-north1/keyRings" +
         "/${this.removeLastTwoSegments()}-risc-key-ring" +
         "/cryptoKeys/${this.removeLastTwoSegments()}-risc-crypto-key"
+
+fun GcpProjectId.getValidationResult(): ValidationResultContent =
+    if (Regex("^(\\w+-)+\\w+$").matches(value)) {
+        ValidationResultContent(true)
+    } else {
+        ValidationResultContent(false, "Invalid format of GCP Project ID: '$value'")
+    }

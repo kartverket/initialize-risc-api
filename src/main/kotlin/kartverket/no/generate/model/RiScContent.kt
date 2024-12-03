@@ -1,4 +1,4 @@
-package kartverket.no.generateRiSc.model
+package kartverket.no.generate.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
