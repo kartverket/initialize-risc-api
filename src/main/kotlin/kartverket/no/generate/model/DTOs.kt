@@ -11,6 +11,15 @@ data class GenerateRiScRequestBody(
 
 @Serializable
 data class GenerateSopsConfigRequestBody(
-    val gcpProjectId: GcpProjectId,
+    val gcpCryptoKey: GcpCryptoKeyObject,
     val publicAgeKeys: List<PublicAgeKey>,
 )
+
+@Serializable
+data class GcpCryptoKeyObject(
+    val projectId: GcpProjectId,
+    val keyRing: String,
+    val name: String,
+) {
+    fun toResourceId() = "projects/${projectId.value}/locations/europe-north1/keyRings/$keyRing/cryptoKeys/$name"
+}
