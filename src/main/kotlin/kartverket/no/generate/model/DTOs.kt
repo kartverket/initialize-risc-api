@@ -20,6 +20,6 @@ data class GcpCryptoKeyObject(
     val projectId: GcpProjectId,
     val keyRing: String,
     val name: String,
-) {
-    fun toResourceId() = "projects/${projectId.value}/locations/europe-north1/keyRings/$keyRing/cryptoKeys/$name"
-}
+)
+
+fun GcpCryptoKeyObject.toResourceId() = "projects/${projectId.value}/locations/europe-north1/keyRings/$keyRing/cryptoKeys/$name"

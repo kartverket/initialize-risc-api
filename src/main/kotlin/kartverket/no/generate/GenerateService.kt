@@ -10,6 +10,7 @@ import kartverket.no.generate.model.PublicAgeKey
 import kartverket.no.generate.model.ResourceId
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.generate.model.SopsConfig
+import kartverket.no.generate.model.toResourceId
 import kartverket.no.securityMetrics.SecurityMetricsResponse
 import kartverket.no.utils.YamlUtils
 import kotlinx.serialization.encodeToString
