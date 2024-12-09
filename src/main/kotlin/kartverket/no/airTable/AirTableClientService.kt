@@ -12,7 +12,7 @@ import io.ktor.http.path
 import kartverket.no.airTable.model.AirTableFetchRecordsResponse
 import kartverket.no.config.AppConfig
 import kartverket.no.exception.exceptions.HttpClientFetchException
-import kartverket.no.generateRiSc.model.RiScContent
+import kartverket.no.generate.model.RiScContent
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 

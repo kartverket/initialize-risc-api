@@ -1,4 +1,4 @@
-package kartverket.no.generateRiSc.model
+package kartverket.no.generate.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
