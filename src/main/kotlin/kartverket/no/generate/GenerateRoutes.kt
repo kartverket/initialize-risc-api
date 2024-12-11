@@ -50,7 +50,7 @@ fun Route.generateRiScRoutes() {
                     return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
                 }
             call.respond(
-                GenerateService.getSopsConfig(requestBody.gcpProjectId, requestBody.publicAgeKeys),
+                GenerateService.getSopsConfig(requestBody.gcpCryptoKey, requestBody.publicAgeKeys),
             )
         }
     }

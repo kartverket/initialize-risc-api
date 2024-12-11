@@ -19,7 +19,7 @@ object Validators {
         }
 
     fun validate(body: GenerateSopsConfigRequestBody): ValidationResult {
-        val gcpProjectIdValidationResult = body.gcpProjectId.getValidationResult()
+        val gcpProjectIdValidationResult = body.gcpCryptoKey.projectId.getValidationResult()
         val publicAgeKeysValidationResults = body.publicAgeKeys.map { it.getValidationResult() }
         if (!gcpProjectIdValidationResult.isValid) {
             return ValidationResult.Invalid(gcpProjectIdValidationResult.message)

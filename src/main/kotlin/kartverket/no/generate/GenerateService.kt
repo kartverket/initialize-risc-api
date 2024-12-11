@@ -4,13 +4,13 @@ import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
 import kartverket.no.generate.model.CreationRule
 import kartverket.no.generate.model.DefaultInitialRiSc
-import kartverket.no.generate.model.GcpProjectId
+import kartverket.no.generate.model.GcpCryptoKeyObject
 import kartverket.no.generate.model.KeyGroup
 import kartverket.no.generate.model.PublicAgeKey
 import kartverket.no.generate.model.ResourceId
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.generate.model.SopsConfig
-import kartverket.no.generate.model.toRiScCryptoResourceId
+import kartverket.no.generate.model.toResourceId
 import kartverket.no.securityMetrics.SecurityMetricsResponse
 import kartverket.no.utils.YamlUtils
 import kotlinx.serialization.encodeToString
@@ -30,7 +30,7 @@ object GenerateService {
         ).content
 
     fun getSopsConfig(
-        gcpProjectId: GcpProjectId,
+        gcpCryptoKey: GcpCryptoKeyObject,
         publicAgeKeys: List<PublicAgeKey>,
     ) = YamlUtils
         .mapToYamlString(
@@ -44,7 +44,7 @@ object GenerateService {
                                 listOfNotNull(
                                     KeyGroup(
                                         age = listOf(config.securityTeamPublicKey),
-                                        gcpKms = listOf(ResourceId(gcpProjectId.toRiScCryptoResourceId())),
+                                        gcpKms = listOf(ResourceId(gcpCryptoKey.toResourceId())),
                                     ),
                                     KeyGroup(
                                         age = listOf(config.backendPublicKey, config.securityPlatformPublicKey),
