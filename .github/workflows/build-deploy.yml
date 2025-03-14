@@ -22,6 +22,7 @@ on:
       - build.gradle.kts
       - src/**
       - .github/workflows/build-deploy.yml
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     paths:
       - Dockerfile
