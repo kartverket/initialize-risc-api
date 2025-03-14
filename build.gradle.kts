@@ -1,7 +1,8 @@
 val kotlinVersion = "2.0.21"
 val ktorVersion = "3.0.1"
-val logbackVersion = "1.4.14"
+val logbackVersion = "1.3.12"
 val jacksonVersion = "2.18.1"
+val nettyHandlerVersion = "4.1.118.Final"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -37,6 +38,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     implementation("io.ktor:ktor-server-config-yaml")
+    implementation("io.netty:netty-handler:$nettyHandlerVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
