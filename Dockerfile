@@ -5,7 +5,7 @@ RUN apk update && apk upgrade
 RUN mkdir /app
 EXPOSE 8085
 RUN adduser -D user && chown -R user /app
-WORKDIR ./
+WORKDIR /app
 COPY build/libs/*.jar /app/initRiSc.jar
 USER user
 ENTRYPOINT ["java","-jar","/app/initRiSc.jar"]
