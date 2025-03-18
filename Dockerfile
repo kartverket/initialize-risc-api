@@ -1,6 +1,8 @@
 # Use a minimal and secure base image
 FROM eclipse-temurin:21.0.5_11-jre-alpine
 RUN apk update && apk upgrade
+COPY . .
+RUN ./gradlew build
 # Create a non-root
 RUN mkdir /app
 EXPOSE 8085
