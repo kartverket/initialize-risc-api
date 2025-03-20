@@ -34,12 +34,15 @@ object SecurityMetricsClientService {
         val httpResponse =
             client.get {
                 url.path(path)
-                header(HttpHeaders.Authorization, "Bearer ${EntraIdClientService.getAccessToken(ClientId(config.clientId)).tokenValue}")
+                header(
+                    HttpHeaders.Authorization,
+                    "Bearer ${EntraIdClientService.getAccessToken(ClientId(config.clientId)).tokenValue}",
+                )
             }
         if (httpResponse.status != HttpStatusCode.OK) {
             throw HttpClientFetchException(
-                logger,
-                "GET request to ${config.baseUrl}/$path failed with status code ${httpResponse.status}",
+                logger = logger,
+                message = "GET request to ${config.baseUrl}/$path failed with status code ${httpResponse.status}",
             )
         }
         return json.decodeFromString<T>(httpResponse.body<String>())

@@ -33,7 +33,7 @@ object EntraIdClientService {
         return if (accessToken.get() != null && accessToken.get().isNotExpired()) {
             AccessToken(accessToken.get().token.tokenValue)
         } else {
-            val accessTokenResponse = fetchAccessToken(audience)
+            val accessTokenResponse = fetchAccessToken(audience = audience)
             val newAccessToken = AccessToken(accessTokenResponse.accessToken)
             accessToken.set(
                 EntraIdAccessToken(
