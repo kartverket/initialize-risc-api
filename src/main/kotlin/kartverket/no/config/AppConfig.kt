@@ -2,7 +2,7 @@ package kartverket.no.config
 
 object AppConfig {
     lateinit var generateRiScConfig: GenerateRiScConfig
-    lateinit var securityMetricsConfig: SecuirtyMetricsConfig
+    lateinit var securityMetricsConfig: SecurityMetricsConfig
     lateinit var entraIdConfig: EntraIdConfig
     lateinit var airTableConfig: AirTableConfig
 }
@@ -23,7 +23,7 @@ object GenerateRiScConfig {
     lateinit var securityTeamPublicKey: String
 }
 
-object SecuirtyMetricsConfig {
+object SecurityMetricsConfig {
     val path: String = "securityMetrics"
     lateinit var baseUrl: String
     lateinit var securityMetricsPath: String

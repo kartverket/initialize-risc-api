@@ -9,7 +9,7 @@ import kartverket.no.config.AirTableConfig
 import kartverket.no.config.AppConfig
 import kartverket.no.config.EntraIdConfig
 import kartverket.no.config.GenerateRiScConfig
-import kartverket.no.config.SecuirtyMetricsConfig
+import kartverket.no.config.SecurityMetricsConfig
 import kartverket.no.exception.exceptions.AppConfigInitializationException
 import kartverket.no.plugins.configureRouting
 import org.slf4j.Logger
@@ -30,49 +30,93 @@ private fun loadConfig(
                 config.propertyOrNull("$path.pathRegex")?.getString() ?: throw AppConfigInitializationException("$path.pathRegex", logger)
             backendPublicKey =
                 config.propertyOrNull("$path.backendPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException("$path.backendPublicKey", logger)
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.backendPublicKey",
+                        logger = logger,
+                    )
             securityPlatformPublicKey =
                 config.propertyOrNull("$path.securityPlatformPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException("$path.securityPlatformPublicKey", logger)
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.securityPlatformPublicKey",
+                        logger = logger,
+                    )
             securityTeamPublicKey =
                 config.propertyOrNull("$path.securityTeamPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException("$path.securityTeamPublicKey", logger)
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.securityTeamPublicKey",
+                        logger = logger,
+                    )
         }
 
     AppConfig.securityMetricsConfig =
-        SecuirtyMetricsConfig.apply {
+        SecurityMetricsConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: throw AppConfigInitializationException("$path.baseUrl", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.baseUrl",
+                    logger = logger,
+                )
             securityMetricsPath = config.propertyOrNull("$path.securityMetricsPath")?.getString()
-                ?: throw AppConfigInitializationException("$path.securityMetricsPath", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.securityMetricsPath",
+                    logger = logger,
+                )
             clientId = config.propertyOrNull("$path.clientId")?.getString()
-                ?: throw AppConfigInitializationException("$path.clientId", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.clientId",
+                    logger = logger,
+                )
         }
 
     AppConfig.entraIdConfig =
         EntraIdConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: throw AppConfigInitializationException("$path.baseUrl", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.baseUrl",
+                    logger = logger,
+                )
             tenantId =
-                config.propertyOrNull("$path.tenantId")?.getString() ?: throw AppConfigInitializationException("$path.tenantId", logger)
+                config.propertyOrNull("$path.tenantId")?.getString()
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.tenantId",
+                        logger = logger,
+                    )
             clientId =
-                config.propertyOrNull("$path.clientId")?.getString() ?: throw AppConfigInitializationException("$path.clientId", logger)
+                config.propertyOrNull("$path.clientId")?.getString()
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.clientId",
+                        logger = logger,
+                    )
             clientSecret =
                 config.propertyOrNull("$path.clientSecret")?.getString()
-                    ?: throw AppConfigInitializationException("$path.clientSecret", logger)
+                    ?: throw AppConfigInitializationException(
+                        fullPath = "$path.clientSecret",
+                        logger = logger,
+                    )
             tokenUrl = "$baseUrl/$tenantId/oauth2/v2.0/token"
         }
 
     AppConfig.airTableConfig =
         AirTableConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: throw AppConfigInitializationException("$path.baseUrl", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.baseUrl",
+                    logger = logger,
+                )
             baseId = config.propertyOrNull("$path.baseId")?.getString()
-                ?: throw AppConfigInitializationException("$path.baseId", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.baseId",
+                    logger = logger,
+                )
             apiToken = config.propertyOrNull("$path.apiToken")?.getString()
-                ?: throw AppConfigInitializationException("$path.apiToken", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.apiToken",
+                    logger = logger,
+                )
             recordId = config.propertyOrNull("$path.recordId")?.getString()
-                ?: throw AppConfigInitializationException("$path.recordId", logger)
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordId",
+                    logger = logger,
+                )
         }
 }
 
