@@ -1,11 +1,11 @@
-val kotlinVersion = "2.0.21"
+val kotlinVersion = "2.1.20"
 val ktorVersion = "3.0.1"
 val logbackVersion = "1.3.12"
 val jacksonVersion = "2.18.1"
 val nettyHandlerVersion = "4.1.118.Final"
 
 plugins {
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.1.20"
     kotlin("plugin.serialization") version "1.5.0"
     id("io.ktor.plugin") version "3.0.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
@@ -13,6 +13,12 @@ plugins {
 
 group = "kartverket.no"
 version = "0.0.1"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -39,6 +45,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
