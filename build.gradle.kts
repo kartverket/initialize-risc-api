@@ -1,8 +1,8 @@
 val kotlinVersion = "2.1.10"
-val ktorVersion = "3.0.1"
-val logbackVersion = "1.3.12"
-val jacksonVersion = "2.18.1"
-val nettyHandlerVersion = "4.1.118.Final"
+val ktorVersion = "3.1.1"
+val logbackVersion = "1.5.'8"
+val jacksonVersion = "2.18.3"
+val nettyHandlerVersion = "4.1.119.Final"
 
 plugins {
     kotlin("jvm") version "2.1.10"
