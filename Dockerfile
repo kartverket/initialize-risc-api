@@ -1,5 +1,5 @@
 # Use a minimal and secure base image
-FROM eclipse-temurin:21.0.5_11-jre-alpine
+FROM eclipse-temurin:23.0.2_7-jre-alpine-3.21
 RUN apk update && apk upgrade
 COPY . .
 RUN ./gradlew build
