@@ -5,7 +5,7 @@ val jacksonVersion = "2.18.3"
 val nettyHandlerVersion = "4.1.119.Final"
 
 plugins {
-    kotlin("jvm") version "2.1.10"
+    kotlin("jvm") version "2.1.20"
     kotlin("plugin.serialization") version "2.1.20"
     id("io.ktor.plugin") version "3.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
