@@ -68,7 +68,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '23'
           architecture: 'x64'
 
       - name: Setup Gradle
@@ -132,7 +132,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Run Pharos"
-        uses: kartverket/pharos@v0.3.1
+        uses: kartverket/pharos@v0.2.5
         with:
           image_url: ${{ needs.build.outputs.image_url }}
 
