@@ -1,8 +1,13 @@
 # Use a minimal and secure base image
-FROM eclipse-temurin:21.0.5_11-jre-alpine
+ARG BUILD_IMAGE=eclipse-temurin:24_36-jdk-alpine-3.21
+ARG IMAGE=eclipse-temurin:24_36-jre-alpine-3.21
+
+FROM ${BUILD_IMAGE} AS build
 RUN apk update && apk upgrade
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew build -x test
+
+FROM ${IMAGE}
 RUN mkdir /app
 COPY build/libs/*.jar /app/initRiSc.jar
 EXPOSE 8085
