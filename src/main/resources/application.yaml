@@ -12,15 +12,15 @@ generateRiSc:
   securityTeamPublicKey: 'age145s860ux96jvx6d7nwvzar588qjmgv5p47sp6nmmt2jnmhqh4scqcuk0mg'
 
 securityMetrics:
-  baseUrl: $SIKKERHETSMETRIKKER_BASE_URL
+  baseUrl: "$SIKKERHETSMETRIKKER_BASE_URL:dummy-default-value"
   securityMetricsPath: 'api/metrikker'
-  clientId: $SIKKERHETSMETRIKKER_CLIENT_ID
+  clientId: "$SIKKERHETSMETRIKKER_CLIENT_ID:dummy-default-value"
 
 entraId:
   baseUrl: 'https://login.microsoftonline.com'
-  clientId: $CLIENT_ID
-  clientSecret: $CLIENT_SECRET
-  tenantId: $TENANT_ID
+  clientId: "$CLIENT_ID:dummy-default-value"
+  clientSecret: "$CLIENT_SECRET:dummy-default-value"
+  tenantId: "$TENANT_ID:dummy-default-value"
 
 airTable:
   baseUrl: 'https://api.airtable.com'
