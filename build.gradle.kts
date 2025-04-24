@@ -21,12 +21,6 @@ ktlint {
 group = "kartverket.no"
 version = "0.0.1"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
-    }
-}
-
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 
