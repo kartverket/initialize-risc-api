@@ -54,13 +54,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
-    testImplementation("io.mockk:mockk:1.13.7") {
-        exclude(group = "net.bytebuddy", module = "byte-buddy")
-    }
-    testImplementation("net.bytebuddy:byte-buddy:1.14.17")
+    testImplementation("io.mockk:mockk:1.14.0")
 }
 
 tasks.test {
     useJUnitPlatform()
-    jvmArgs("-Dnet.bytebuddy.experimental=true")
 }

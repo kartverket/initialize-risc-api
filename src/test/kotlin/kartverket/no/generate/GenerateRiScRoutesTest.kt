@@ -50,8 +50,8 @@ class GenerateRiScRoutesTest {
         } returns
             RiScContent(
                 schemaVersion = "1.0",
-                title = "TestTitle",
-                scope = "TestScope",
+                title = "MockTitle",
+                scope = "MockScope",
                 valuations = emptyList(),
                 scenarios = emptyList(),
             )
@@ -61,16 +61,12 @@ class GenerateRiScRoutesTest {
     fun `should return 200 OK and RiSc content on valid input`() =
         testApplication {
             application {
-                this.install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) {
-                    json()
-                }
-
-                routing {
-                    generateRiScRoutes()
-                }
+                install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
+                routing { generateRiScRoutes() }
             }
 
             val repositoryName = "test-repository"
+
             val validInitialRiSc =
                 """
                 {
@@ -92,15 +88,80 @@ class GenerateRiScRoutesTest {
 
             assertEquals(HttpStatusCode.OK, response.status)
             assertTrue(response.bodyAsText().contains("TestTitle"))
+        }
 
-            // Test at det funker, aka. respons ...
-            // assertEquals(HttpStatusCode.OK, response.status)
+    @Test
+    fun `should return 400 Bad Request on invalid initialRiSc`() =
+        testApplication {
+            application {
+                install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
+                routing { generateRiScRoutes() }
+            }
 
-            // Test respons: RequestValidationException
+            val repositoryName = "test-repository"
+            val invalidRequestBody = """{ "initialRiSc": "not-a-json-object" }"""
 
-            // Test respons: IllegalArgumentException
+            val response =
+                client.post("/generate/$repositoryName") {
+                    contentType(ContentType.Application.Json)
+                    setBody(invalidRequestBody)
+                }
 
-            // Test respons på failet repositoryname
-            // assertEquals()
+            assertEquals(HttpStatusCode.BadRequest, response.status)
+        }
+
+    @Test
+    fun `should return 404 when repositoryName is missing`() =
+        testApplication {
+            application {
+                install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
+                routing { generateRiScRoutes() }
+            }
+
+            val requestBody =
+                GenerateRiScRequestBody(
+                    initialRiSc = """{ "schemaVersion": "1.0", "title": "x", "scope": "y", "valuations": [], "scenarios": [] }""",
+                )
+
+            val response =
+                client.post("/generate/") {
+                    contentType(ContentType.Application.Json)
+                    setBody(Json.encodeToString(requestBody))
+                }
+
+            assertEquals(HttpStatusCode.NotFound, response.status)
+        }
+
+    @Test
+    fun `should return 400 Bad Request when required fields are missing in initialRiSc`() =
+        testApplication {
+            application {
+                install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
+                routing { generateRiScRoutes() }
+            }
+
+            val repositoryName = "test-repository"
+
+            val invalidInitialRiSc =
+                """
+                {
+                  "schemaVersion": "1.0",
+                  "valuations": [],
+                  "scenarios": []
+                }
+                """.trimIndent()
+
+            val requestBody = GenerateRiScRequestBody(initialRiSc = invalidInitialRiSc)
+
+            val response =
+                client.post("/generate/$repositoryName") {
+                    contentType(ContentType.Application.Json)
+                    setBody(Json.encodeToString(requestBody))
+                }
+
+            assertEquals(HttpStatusCode.BadRequest, response.status)
+            assertTrue(
+                response.bodyAsText().contains("title", ignoreCase = true) || response.bodyAsText().contains("scope", ignoreCase = true),
+            )
         }
 }
