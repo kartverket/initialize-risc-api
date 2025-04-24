@@ -160,8 +160,9 @@ class GenerateRiScRoutesTest {
                 }
 
             assertEquals(HttpStatusCode.BadRequest, response.status)
+            println("Response body: ${response.bodyAsText()}")
             assertTrue(
-                response.bodyAsText().contains("title", ignoreCase = true) || response.bodyAsText().contains("scope", ignoreCase = true),
+                response.bodyAsText().contains("not a valid RiSc", ignoreCase = true),
             )
         }
 }
