@@ -16,7 +16,6 @@ import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
 import kartverket.no.generate.model.GenerateRiScRequestBody
 import kartverket.no.generate.model.RiScContent
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
