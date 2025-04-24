@@ -1,14 +1,20 @@
 val kotlinVersion = "2.1.20"
-val ktorVersion = "3.0.1"
-val logbackVersion = "1.3.12"
-val jacksonVersion = "2.18.1"
-val nettyHandlerVersion = "4.1.118.Final"
+val ktorVersion = "3.1.1"
+val logbackVersion = "1.5.18"
+val jacksonVersion = "2.18.3"
+val nettyHandlerVersion = "4.1.119.Final"
 
 plugins {
     kotlin("jvm") version "2.1.20"
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization") version "2.1.20"
     id("io.ktor.plugin") version "3.0.1"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+}
+
+// Oppgradeer til siste versjon av ktlint fordi org.jlleitschuh.gradle.ktlint version 12.1.2 bruker for gammel versjon
+// Slett når ktlint-plugin'en oppdateres til nyere versjon
+ktlint {
+    version.set("1.5.0")
 }
 
 group = "kartverket.no"
