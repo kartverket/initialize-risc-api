@@ -10,10 +10,7 @@ import kotlinx.serialization.json.Json
 object GenerateService {
     private val config = AppConfig.generateRiScConfig
 
-    suspend fun generateDefaultRiSc(
-        repositoryName: String,
-        initialRiScContent: RiScContent,
-    ): String =
+    suspend fun generateDefaultRiSc(initialRiScContent: RiScContent): String =
         generateInitialRiScContent(
             null,
             AirTableClientService.fetchDefaultRiSc(),

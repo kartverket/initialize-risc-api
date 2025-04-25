@@ -21,10 +21,7 @@ fun Route.generateRiScRoutes() {
     }
 
     route("/generate") {
-        post("/{repositoryName}") {
-            val repositoryName =
-                call.parameters["repositoryName"]
-                    ?: return@post call.respond(HttpStatusCode.NotFound, "Expected repository name as path parameter")
+        post {
             val initialRiSc =
                 try {
                     val requestBody = call.receive<GenerateRiScRequestBody>()
@@ -38,7 +35,7 @@ fun Route.generateRiScRoutes() {
                     )
                 }
             call.respond(
-                GenerateService.generateDefaultRiSc(repositoryName, initialRiSc),
+                GenerateService.generateDefaultRiSc(initialRiSc),
             )
         }
     }
