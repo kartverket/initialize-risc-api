@@ -42,16 +42,5 @@ fun Route.generateRiScRoutes() {
                 GenerateService.generateDefaultRiSc(repositoryName, initialRiSc),
             )
         }
-        post("/sopsConfig") {
-            val requestBody =
-                try {
-                    call.receive<GenerateSopsConfigRequestBody>()
-                } catch (e: RequestValidationException) {
-                    return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
-                }
-            call.respond(
-                GenerateService.getSopsConfig(requestBody.gcpCryptoKey, requestBody.publicAgeKeys),
-            )
-        }
     }
 }
