@@ -9,7 +9,6 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import kartverket.no.generate.model.GenerateRiScRequestBody
-import kartverket.no.generate.model.GenerateSopsConfigRequestBody
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.utils.Validators
 import kotlinx.serialization.json.Json
@@ -19,8 +18,8 @@ fun Route.generateRiScRoutes() {
 
     install(RequestValidation) {
         validate<GenerateRiScRequestBody> { Validators.validate(it) }
-        validate<GenerateSopsConfigRequestBody> { Validators.validate(it) }
     }
+
     route("/generate") {
         post("/{repositoryName}") {
             val repositoryName =
@@ -40,17 +39,6 @@ fun Route.generateRiScRoutes() {
                 }
             call.respond(
                 GenerateService.generateDefaultRiSc(repositoryName, initialRiSc),
-            )
-        }
-        post("/sopsConfig") {
-            val requestBody =
-                try {
-                    call.receive<GenerateSopsConfigRequestBody>()
-                } catch (e: RequestValidationException) {
-                    return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
-                }
-            call.respond(
-                GenerateService.getSopsConfig(requestBody.gcpCryptoKey, requestBody.publicAgeKeys),
             )
         }
     }
