@@ -1,9 +1,2 @@
 POST localhost:8085/generate/sikkerhetsmetrikker
 Content-Type: application/json
-
-{
-  "gcpProjectId": "infradrift-prod-e6c9"
-}
-
-### Health
-POST localhost:8084/encrypt
