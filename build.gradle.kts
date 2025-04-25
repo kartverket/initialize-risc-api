@@ -3,6 +3,8 @@ val ktorVersion = "3.1.1"
 val logbackVersion = "1.5.18"
 val jacksonVersion = "2.18.3"
 val nettyHandlerVersion = "4.1.119.Final"
+val junitVersion = "5.12.2"
+val mockkVersion = "1.14.0"
 
 plugins {
     kotlin("jvm") version "2.1.20"
@@ -40,11 +42,25 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-server-request-validation:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
+    implementation("io.ktor:ktor-server-config-yaml")
+
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-    implementation("io.ktor:ktor-server-config-yaml")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
+
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+
+    testImplementation(platform("org.junit:junit-bom:$junitVersion")) {
+        because("The BOM (bill of materials) provides correct versions for all JUnit libraries used.")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    testImplementation("io.mockk:mockk:$mockkVersion")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
