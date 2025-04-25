@@ -45,8 +45,6 @@ dependencies {
     implementation("io.ktor:ktor-server-config-yaml")
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
 
     testImplementation("io.ktor:ktor-server-test-host-jvm")

@@ -3,11 +3,6 @@ package kartverket.no.utils
 import io.ktor.server.plugins.requestvalidation.ValidationResult
 import kartverket.no.generate.model.GenerateRiScRequestBody
 
-data class ValidationResultContent(
-    val isValid: Boolean,
-    val message: String = "",
-)
-
 object Validators {
     fun validate(body: GenerateRiScRequestBody): ValidationResult =
         if (body.initialRiSc.isEmpty()) {
