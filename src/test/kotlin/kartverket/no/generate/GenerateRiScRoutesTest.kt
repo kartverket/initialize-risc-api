@@ -64,8 +64,6 @@ class GenerateRiScRoutesTest {
                 routing { generateRiScRoutes() }
             }
 
-            val repositoryName = "test-repository"
-
             val validInitialRiSc =
                 """
                 {
@@ -80,7 +78,7 @@ class GenerateRiScRoutesTest {
             val requestBody = GenerateRiScRequestBody(initialRiSc = validInitialRiSc)
 
             val response =
-                client.post("/generate/$repositoryName") {
+                client.post("/generate") {
                     contentType(ContentType.Application.Json)
                     setBody(Json.encodeToString(requestBody))
                 }
@@ -97,38 +95,15 @@ class GenerateRiScRoutesTest {
                 routing { generateRiScRoutes() }
             }
 
-            val repositoryName = "test-repository"
             val invalidRequestBody = """{ "initialRiSc": "not-a-json-object" }"""
 
             val response =
-                client.post("/generate/$repositoryName") {
+                client.post("/generate") {
                     contentType(ContentType.Application.Json)
                     setBody(invalidRequestBody)
                 }
 
             assertEquals(HttpStatusCode.BadRequest, response.status)
-        }
-
-    @Test
-    fun `should return 404 when repositoryName is missing`() =
-        testApplication {
-            application {
-                install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
-                routing { generateRiScRoutes() }
-            }
-
-            val requestBody =
-                GenerateRiScRequestBody(
-                    initialRiSc = """{ "schemaVersion": "1.0", "title": "x", "scope": "y", "valuations": [], "scenarios": [] }""",
-                )
-
-            val response =
-                client.post("/generate/") {
-                    contentType(ContentType.Application.Json)
-                    setBody(Json.encodeToString(requestBody))
-                }
-
-            assertEquals(HttpStatusCode.NotFound, response.status)
         }
 
     @Test
@@ -138,8 +113,6 @@ class GenerateRiScRoutesTest {
                 install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) { json() }
                 routing { generateRiScRoutes() }
             }
-
-            val repositoryName = "test-repository"
 
             val invalidInitialRiSc =
                 """
@@ -153,7 +126,7 @@ class GenerateRiScRoutesTest {
             val requestBody = GenerateRiScRequestBody(initialRiSc = invalidInitialRiSc)
 
             val response =
-                client.post("/generate/$repositoryName") {
+                client.post("/generate") {
                     contentType(ContentType.Application.Json)
                     setBody(Json.encodeToString(requestBody))
                 }
