@@ -4,11 +4,13 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
-import kartverket.no.generate.model.RiScContent
+import kartverket.no.generate.model.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlinx.serialization.json.Json
 
 class GenerateServiceTest {
     @BeforeEach
@@ -40,25 +42,59 @@ class GenerateServiceTest {
                 AirTableClientService.fetchDefaultRiSc()
             } returns
                 RiScContent(
-                    schemaVersion = "1.0",
+                    schemaVersion = "defaultSchema",
                     title = "DefaultTitle",
                     scope = "DefaultScope",
                     valuations = emptyList(),
                     scenarios = emptyList(),
                 )
 
-            val inputRiSc =
-                RiScContent(
-                    schemaVersion = "1.0",
-                    title = "InputTitle",
-                    scope = "InputScope",
-                    valuations = emptyList(),
-                    scenarios = emptyList(),
+            val inputRiSc = RiScContent(
+                schemaVersion = "inputSchema",
+                title = "InputTitle",
+                scope = "InputScope",
+                valuations = listOf(
+                    RiScValuation(
+                        description = "desc from input",
+                        confidentiality = "low",
+                        integrity = "low",
+                        availability = "low"
+                    )
+                ),
+                scenarios = listOf(
+                    RiScScenario(
+                        title = "Scenario from input",
+                        scenario = Scenario(
+                            id = "desc",
+                            description = "scenario description",
+                            threatActors = listOf(ThreatActor.SCRIPT_KIDDIE),
+                            vulnerabilities = listOf(Vulnerability.FLAWED_DESIGN),
+                            risk = Risk(consequence = 3, probability = 0.5f),
+                            actions = listOf(
+                                RiScScenarioAction(
+                                    title = "Some action",
+                                    action = RiScScenarioActionInfo(
+                                        id = "a1",
+                                        description = "Action description",
+                                        status = RiScScenarioActionStatus.NOT_STARTED,
+                                        url = "https://example.com"
+                                    )
+                                )
+                            ),
+                            remainingRisk = Risk(consequence = 2, probability = 0.2f)
+                        )
+                    )
                 )
+            )
 
             val result = GenerateService.generateDefaultRiSc(inputRiSc)
 
-            assertTrue(result.contains("InputTitle"))
-            assertTrue(result.contains("InputScope"))
+            val decodedResult = Json.decodeFromString<RiScContent>(result)
+
+            assertEquals("InputTitle", decodedResult.title)
+            assertEquals("InputScope", decodedResult.scope)
+            assertEquals("defaultSchema", decodedResult.schemaVersion)
+            assertTrue(decodedResult.valuations.isEmpty())
+            assertTrue(decodedResult.scenarios.isEmpty())
         }
 }
