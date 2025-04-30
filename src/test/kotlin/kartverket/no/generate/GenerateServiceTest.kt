@@ -4,13 +4,22 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
-import kartverket.no.generate.model.*
+import kartverket.no.generate.model.RiScContent
+import kartverket.no.generate.model.RiScScenario
+import kartverket.no.generate.model.RiScScenarioAction
+import kartverket.no.generate.model.RiScScenarioActionInfo
+import kartverket.no.generate.model.RiScScenarioActionStatus
+import kartverket.no.generate.model.RiScValuation
+import kartverket.no.generate.model.Risk
+import kartverket.no.generate.model.Scenario
+import kartverket.no.generate.model.ThreatActor
+import kartverket.no.generate.model.Vulnerability
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.assertTrue
+import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import kotlinx.serialization.json.Json
 
 class GenerateServiceTest {
     @BeforeEach
@@ -49,43 +58,49 @@ class GenerateServiceTest {
                     scenarios = emptyList(),
                 )
 
-            val inputRiSc = RiScContent(
-                schemaVersion = "inputSchema",
-                title = "InputTitle",
-                scope = "InputScope",
-                valuations = listOf(
-                    RiScValuation(
-                        description = "desc from input",
-                        confidentiality = "low",
-                        integrity = "low",
-                        availability = "low"
-                    )
-                ),
-                scenarios = listOf(
-                    RiScScenario(
-                        title = "Scenario from input",
-                        scenario = Scenario(
-                            id = "desc",
-                            description = "scenario description",
-                            threatActors = listOf(ThreatActor.SCRIPT_KIDDIE),
-                            vulnerabilities = listOf(Vulnerability.FLAWED_DESIGN),
-                            risk = Risk(consequence = 3, probability = 0.5f),
-                            actions = listOf(
-                                RiScScenarioAction(
-                                    title = "Some action",
-                                    action = RiScScenarioActionInfo(
-                                        id = "a1",
-                                        description = "Action description",
-                                        status = RiScScenarioActionStatus.NOT_STARTED,
-                                        url = "https://example.com"
-                                    )
-                                )
+            val inputRiSc =
+                RiScContent(
+                    schemaVersion = "inputSchema",
+                    title = "InputTitle",
+                    scope = "InputScope",
+                    valuations =
+                        listOf(
+                            RiScValuation(
+                                description = "desc from input",
+                                confidentiality = "low",
+                                integrity = "low",
+                                availability = "low",
                             ),
-                            remainingRisk = Risk(consequence = 2, probability = 0.2f)
-                        )
-                    )
+                        ),
+                    scenarios =
+                        listOf(
+                            RiScScenario(
+                                title = "Scenario from input",
+                                scenario =
+                                    Scenario(
+                                        id = "desc",
+                                        description = "scenario description",
+                                        threatActors = listOf(ThreatActor.SCRIPT_KIDDIE),
+                                        vulnerabilities = listOf(Vulnerability.FLAWED_DESIGN),
+                                        risk = Risk(consequence = 3, probability = 0.5f),
+                                        actions =
+                                            listOf(
+                                                RiScScenarioAction(
+                                                    title = "Some action",
+                                                    action =
+                                                        RiScScenarioActionInfo(
+                                                            id = "a1",
+                                                            description = "Action description",
+                                                            status = RiScScenarioActionStatus.NOT_STARTED,
+                                                            url = "https://example.com",
+                                                        ),
+                                                ),
+                                            ),
+                                        remainingRisk = Risk(consequence = 2, probability = 0.2f),
+                                    ),
+                            ),
+                        ),
                 )
-            )
 
             val result = GenerateService.generateDefaultRiSc(inputRiSc)
 
