@@ -51,47 +51,26 @@ private fun loadConfig(
     AppConfig.securityMetricsConfig =
         SecurityMetricsConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: throw AppConfigInitializationException(
-                    fullPath = "$path.baseUrl",
-                    logger = logger,
-                )
+                ?: "https://baseurl.dummy.com"
             securityMetricsPath = config.propertyOrNull("$path.securityMetricsPath")?.getString()
-                ?: throw AppConfigInitializationException(
-                    fullPath = "$path.securityMetricsPath",
-                    logger = logger,
-                )
+                ?: "api/dummymetrikker"
             clientId = config.propertyOrNull("$path.clientId")?.getString()
-                ?: throw AppConfigInitializationException(
-                    fullPath = "$path.clientId",
-                    logger = logger,
-                )
+                ?: "dummy-metrics-client-id"
         }
 
     AppConfig.entraIdConfig =
         EntraIdConfig.apply {
             baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: throw AppConfigInitializationException(
-                    fullPath = "$path.baseUrl",
-                    logger = logger,
-                )
+                ?: "https://baseurl.dummy.com"
             tenantId =
                 config.propertyOrNull("$path.tenantId")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.tenantId",
-                        logger = logger,
-                    )
+                    ?: "dummy-tenant-id"
             clientId =
                 config.propertyOrNull("$path.clientId")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.clientId",
-                        logger = logger,
-                    )
+                    ?: "dummy-client-id"
             clientSecret =
                 config.propertyOrNull("$path.clientSecret")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.clientSecret",
-                        logger = logger,
-                    )
+                    ?: "dummy-secret"
             tokenUrl = "$baseUrl/$tenantId/oauth2/v2.0/token"
         }
 
