@@ -11,11 +11,6 @@ generateRiSc:
   securityPlatformPublicKey: ${SECURITY_PLATFORM_PUBLIC_KEY}
   securityTeamPublicKey: ${SECURITY_TEAM_PUBLIC_KEY}
 
-securityMetrics:
-  baseUrl: ${SIKKERHETSMETRIKKER_BASE_URL}
-  securityMetricsPath: 'api/metrikker'
-  clientId: ${SIKKERHETSMETRIKKER_CLIENT_ID}
-
 entraId:
   baseUrl: 'https://login.microsoftonline.com'
   clientId: ${CLIENT_ID}

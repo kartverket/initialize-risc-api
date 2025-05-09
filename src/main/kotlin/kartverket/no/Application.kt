@@ -9,7 +9,6 @@ import kartverket.no.config.AirTableConfig
 import kartverket.no.config.AppConfig
 import kartverket.no.config.EntraIdConfig
 import kartverket.no.config.GenerateRiScConfig
-import kartverket.no.config.SecurityMetricsConfig
 import kartverket.no.exception.exceptions.AppConfigInitializationException
 import kartverket.no.plugins.configureRouting
 import org.slf4j.Logger
@@ -46,16 +45,6 @@ private fun loadConfig(
                         fullPath = "$path.securityTeamPublicKey",
                         logger = logger,
                     )
-        }
-
-    AppConfig.securityMetricsConfig =
-        SecurityMetricsConfig.apply {
-            baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: "https://baseurl.dummy.com"
-            securityMetricsPath = config.propertyOrNull("$path.securityMetricsPath")?.getString()
-                ?: "api/dummymetrikker"
-            clientId = config.propertyOrNull("$path.clientId")?.getString()
-                ?: "dummy-metrics-client-id"
         }
 
     AppConfig.entraIdConfig =
