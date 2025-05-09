@@ -31,6 +31,7 @@
 
    ```bash
    docker compose up --build
+   ```
 
 3. Test that the application is running:
 
