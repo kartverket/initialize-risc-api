@@ -9,9 +9,6 @@
 | AIRTABLE_API_TOKEN            | API token used to authenticate requests to the Airtable API.               | ✅         |
 | AIRTABLE_BASE_ID              | Identifier for the specific Airtable base being accessed.                  | ✅         |
 | AIRTABLE_RECORD_ID            | ID of a particular record in the Airtable base.                            | ✅         |
-| CLIENT_ID                     | Entra ID client ID used for authentication. Dummy is used in dev.         | ❌         |
-| CLIENT_SECRET                 | Entra ID client secret used for authentication. Dummy is used in dev.     | ❌         |
-| TENANT_ID                     | Identifier for the Microsoft Entra ID tenant. Dummy is used in dev.       | ❌         |
 | SECURITY_TEAM_PUBLIC_KEY      | Public key for encryption used by the security team.                       | ✅         |
 | SECURITY_PLATFORM_PUBLIC_KEY  | Public key for encryption used by the platform.                            | ✅         |
 | BACKEND_PUBLIC_KEY            | Public key for backend encryption.                                         | ✅         |

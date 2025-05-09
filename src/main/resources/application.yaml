@@ -11,12 +11,6 @@ generateRiSc:
   securityPlatformPublicKey: ${SECURITY_PLATFORM_PUBLIC_KEY}
   securityTeamPublicKey: ${SECURITY_TEAM_PUBLIC_KEY}
 
-entraId:
-  baseUrl: 'https://login.microsoftonline.com'
-  clientId: ${CLIENT_ID}
-  clientSecret: ${CLIENT_SECRET}
-  tenantId: ${TENANT_ID}
-
 airTable:
   baseUrl: 'https://api.airtable.com'
   baseId: ${AIRTABLE_BASE_ID}

@@ -7,7 +7,6 @@ import io.ktor.server.config.ApplicationConfig
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import kartverket.no.config.AirTableConfig
 import kartverket.no.config.AppConfig
-import kartverket.no.config.EntraIdConfig
 import kartverket.no.config.GenerateRiScConfig
 import kartverket.no.exception.exceptions.AppConfigInitializationException
 import kartverket.no.plugins.configureRouting
@@ -45,22 +44,6 @@ private fun loadConfig(
                         fullPath = "$path.securityTeamPublicKey",
                         logger = logger,
                     )
-        }
-
-    AppConfig.entraIdConfig =
-        EntraIdConfig.apply {
-            baseUrl = config.propertyOrNull("$path.baseUrl")?.getString()
-                ?: "https://baseurl.dummy.com"
-            tenantId =
-                config.propertyOrNull("$path.tenantId")?.getString()
-                    ?: "dummy-tenant-id"
-            clientId =
-                config.propertyOrNull("$path.clientId")?.getString()
-                    ?: "dummy-client-id"
-            clientSecret =
-                config.propertyOrNull("$path.clientSecret")?.getString()
-                    ?: "dummy-secret"
-            tokenUrl = "$baseUrl/$tenantId/oauth2/v2.0/token"
         }
 
     AppConfig.airTableConfig =
