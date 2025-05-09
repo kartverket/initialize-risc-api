@@ -37,6 +37,7 @@
 
    ```bash
    curl http://localhost:8085/health
+   ```
 
 
 You should get a response: `All good!`
