@@ -24,6 +24,7 @@
 
    ```bash
    cp .env.example .env
+   ```
 
 
 2. Start the application using Docker Compose:
