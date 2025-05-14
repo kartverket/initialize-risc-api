@@ -1,13 +1,12 @@
-val kotlinVersion = "2.1.20"
+val kotlinVersion = "2.1.21"
 val ktorVersion = "3.1.1"
 val logbackVersion = "1.5.18"
-val jacksonVersion = "2.18.3"
 val nettyHandlerVersion = "4.1.119.Final"
 val junitVersion = "5.12.2"
 val mockkVersion = "1.14.0"
 
 plugins {
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.1.21"
     kotlin("plugin.serialization") version "2.1.20"
     id("io.ktor.plugin") version "3.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
@@ -27,6 +26,14 @@ application {
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+kotlin {
+    jvmToolchain(23)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_23
 }
 
 repositories {
