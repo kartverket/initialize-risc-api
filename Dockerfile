@@ -23,3 +23,6 @@ RUN adduser -D user && chown -R user /app
 WORKDIR /app
 USER user
 ENTRYPOINT ["java","-jar","/app/initRiSc.jar"]
+
+HEALTHCHECK --start-period=30s --start-interval=10s --interval=5m \
+    CMD wget -O - --quiet --tries=1 http://localhost:8085/health | grep "All good" || exit 1
