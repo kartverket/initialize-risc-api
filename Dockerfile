@@ -16,7 +16,7 @@ FROM ${IMAGE}
 RUN apk upgrade --no-cache
 
 RUN mkdir /app
-COPY build/libs/*.jar /app/initRiSc.jar
+COPY --from=build build/libs/*.jar /app/initRiSc.jar
 EXPOSE 8085
 # Create a non-root
 RUN adduser -D user && chown -R user /app
