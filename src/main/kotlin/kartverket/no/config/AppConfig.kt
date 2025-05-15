@@ -2,8 +2,6 @@ package kartverket.no.config
 
 object AppConfig {
     lateinit var generateRiScConfig: GenerateRiScConfig
-    lateinit var securityMetricsConfig: SecurityMetricsConfig
-    lateinit var entraIdConfig: EntraIdConfig
     lateinit var airTableConfig: AirTableConfig
 }
 
@@ -21,20 +19,4 @@ object GenerateRiScConfig {
     lateinit var backendPublicKey: String
     lateinit var securityPlatformPublicKey: String
     lateinit var securityTeamPublicKey: String
-}
-
-object SecurityMetricsConfig {
-    val path: String = "securityMetrics"
-    lateinit var baseUrl: String
-    lateinit var securityMetricsPath: String
-    lateinit var clientId: String
-}
-
-object EntraIdConfig {
-    val path: String = "entraId"
-    lateinit var baseUrl: String
-    lateinit var tenantId: String
-    lateinit var clientId: String
-    lateinit var clientSecret: String
-    lateinit var tokenUrl: String
 }
