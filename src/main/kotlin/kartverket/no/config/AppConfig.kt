@@ -11,6 +11,7 @@ object AirTableConfig {
     lateinit var baseId: String
     lateinit var apiToken: String
     lateinit var recordId: String
+    lateinit var tableId: String
 }
 
 object GenerateRiScConfig {
