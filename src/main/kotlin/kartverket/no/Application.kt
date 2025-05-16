@@ -26,24 +26,6 @@ private fun loadConfig(
         GenerateRiScConfig.apply {
             pathRegex =
                 config.propertyOrNull("$path.pathRegex")?.getString() ?: throw AppConfigInitializationException("$path.pathRegex", logger)
-            backendPublicKey =
-                config.propertyOrNull("$path.backendPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.backendPublicKey",
-                        logger = logger,
-                    )
-            securityPlatformPublicKey =
-                config.propertyOrNull("$path.securityPlatformPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.securityPlatformPublicKey",
-                        logger = logger,
-                    )
-            securityTeamPublicKey =
-                config.propertyOrNull("$path.securityTeamPublicKey")?.getString()
-                    ?: throw AppConfigInitializationException(
-                        fullPath = "$path.securityTeamPublicKey",
-                        logger = logger,
-                    )
         }
 
     AppConfig.airTableConfig =

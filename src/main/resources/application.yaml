@@ -7,9 +7,6 @@ ktor:
 
 generateRiSc:
   pathRegex: '\.risc\.yaml$'
-  backendPublicKey: $BACKEND_PUBLIC_KEY
-  securityPlatformPublicKey: $SECURITY_PLATFORM_PUBLIC_KEY
-  securityTeamPublicKey: $SECURITY_TEAM_PUBLIC_KEY
 
 airTable:
   baseUrl: 'https://api.airtable.com'

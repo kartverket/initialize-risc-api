@@ -10,9 +10,6 @@
 | AIRTABLE_BASE_ID             | Identifier for the specific Airtable base being accessed.    | ✅         |
 | AIRTABLE_RECORD_ID           | ID of a particular record in the Airtable base.              | ✅         |
 | AIRTABLE_TABLE_ID            | ID of a particular table in the Airtable base.               | ✅         |
-| SECURITY_TEAM_PUBLIC_KEY     | Public key for encryption used by the security team.         | ✅         |
-| SECURITY_PLATFORM_PUBLIC_KEY | Public key for encryption used by the platform.              | ✅         |
-| BACKEND_PUBLIC_KEY           | Public key for backend encryption.                           | ✅         |
 
 ---
 
