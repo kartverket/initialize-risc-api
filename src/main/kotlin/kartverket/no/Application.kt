@@ -68,6 +68,11 @@ private fun loadConfig(
                     fullPath = "$path.recordId",
                     logger = logger,
                 )
+            tableId = config.propertyOrNull("$path.tableId")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.tableId",
+                    logger = logger,
+                )
         }
 }
 

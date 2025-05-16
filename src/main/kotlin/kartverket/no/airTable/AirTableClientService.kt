@@ -30,7 +30,7 @@ object AirTableClientService {
     suspend fun fetchDefaultRiSc() =
         json.decodeFromString<RiScContent>(
             fetch<AirTableFetchRecordsResponse>(
-                path = "v0/${config.baseId}/RoS",
+                path = "v0/${config.baseId}/${config.tableId}",
                 queryParams = mapOf("view" to "RoS-Json"),
             ).toRiScContentString(logger, config.recordId),
         )
