@@ -30,9 +30,6 @@ class GenerateRiScRoutesTest {
 
         with(AppConfig.generateRiScConfig) {
             pathRegex = ".*"
-            backendPublicKey = "dummy-backend"
-            securityPlatformPublicKey = "dummy-platform"
-            securityTeamPublicKey = "dummy-team"
         }
 
         with(AppConfig.airTableConfig) {

@@ -16,7 +16,4 @@ object AirTableConfig {
 object GenerateRiScConfig {
     val path: String = "generateRiSc"
     lateinit var pathRegex: String
-    lateinit var backendPublicKey: String
-    lateinit var securityPlatformPublicKey: String
-    lateinit var securityTeamPublicKey: String
 }
