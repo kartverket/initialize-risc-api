@@ -4,11 +4,12 @@
 ## Run the application
 `intialize-risc-api` needs some environment variables to be runned.
 
-| Env var                        | Description                                                                 | Required? |
-|-------------------------------|-----------------------------------------------------------------------------|-----------|
-| AIRTABLE_API_TOKEN            | API token used to authenticate requests to the Airtable API.               | ✅         |
-| AIRTABLE_BASE_ID              | Identifier for the specific Airtable base being accessed.                  | ✅         |
-| AIRTABLE_RECORD_ID            | ID of a particular record in the Airtable base.                            | ✅         |
+| Env var                      | Description                                                  | Required? |
+|------------------------------|--------------------------------------------------------------|-----------|
+| AIRTABLE_API_TOKEN           | API token used to authenticate requests to the Airtable API. | ✅         |
+| AIRTABLE_BASE_ID             | Identifier for the specific Airtable base being accessed.    | ✅         |
+| AIRTABLE_RECORD_ID           | ID of a particular record in the Airtable base.              | ✅         |
+| AIRTABLE_TABLE_ID            | ID of a particular table in the Airtable base.               | ✅         |
 
 ---
 
