@@ -1,5 +1,5 @@
 val kotlinVersion = "2.1.21"
-val ktorVersion = "3.1.1"
+val ktorVersion = "3.1.3"
 val logbackVersion = "1.5.18"
 val nettyHandlerVersion = "4.1.119.Final"
 val junitVersion = "5.12.2"
