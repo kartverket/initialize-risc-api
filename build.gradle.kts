@@ -5,6 +5,19 @@ val nettyHandlerVersion = "4.2.1.Final"
 val junitVersion = "5.12.2"
 val mockkVersion = "1.14.2"
 
+configurations.all {
+    // org.jlleitschuh.gradle.ktlint 12.2.0 trekker inn
+    // com.pinterest.ktlint:ktlint-cli:1.0.1
+    // Se om denne kan fjernes når ktlint oppdateres
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.pinterest.ktlint" && requested.name == "ktlint-cli") {
+            if (requested.version == "1.0.1") {
+                useVersion("1.6.0")
+            }
+        }
+    }
+}
+
 plugins {
     kotlin("jvm") version "2.1.21"
     kotlin("plugin.serialization") version "2.1.21"
@@ -47,6 +60,8 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
+
+    implementation("ch.qos.logback:logback-classic:1.3.12")
 
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
