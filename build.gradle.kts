@@ -12,6 +12,12 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
+// Specifies the usage of the currently newest version of Ktlint. `org.jlleitschuh.gradle.ktlint` version 12.2.0 is
+// not guaranteed to use the newest version available.
+ktlint {
+    version.set("1.6.0")
+}
+
 group = "kartverket.no"
 version = "0.0.1"
 
