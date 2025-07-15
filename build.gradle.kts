@@ -8,7 +8,7 @@ val mockkVersion = "1.14.4"
 plugins {
     kotlin("jvm") version "2.2.0"
     kotlin("plugin.serialization") version "2.2.0"
-    id("io.ktor.plugin") version "3.2.1"
+    id("io.ktor.plugin") version "3.2.2"
     id("org.jlleitschuh.gradle.ktlint") version "12.3.0"
 }
 
