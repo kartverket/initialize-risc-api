@@ -119,21 +119,3 @@ enum class RiScScenarioActionStatus {
     @SerialName("Not relevant")
     NOT_RELEVANT,
 }
-
-@Serializable
-enum class RiScScenarioActionStatusV4 {
-    @SerialName("Not started")
-    NOT_STARTED,
-
-    @SerialName("In progress")
-    IN_PROGRESS,
-
-    @SerialName("On hold")
-    ON_HOLD,
-
-    @SerialName("Completed")
-    COMPLETED,
-
-    @SerialName("Aborted")
-    ABORTED,
-}
