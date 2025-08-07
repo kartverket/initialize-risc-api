@@ -88,7 +88,7 @@ class GenerateServiceTest {
                                                         RiScScenarioActionInfo(
                                                             id = "a1",
                                                             description = "Action description",
-                                                            status = RiScScenarioActionStatus.NOT_STARTED,
+                                                            status = RiScScenarioActionStatus.NOT_OK,
                                                             url = "https://example.com",
                                                         ),
                                                 ),

@@ -110,6 +110,18 @@ data class RiScScenarioActionInfo(
 
 @Serializable
 enum class RiScScenarioActionStatus {
+    @SerialName("OK")
+    OK,
+
+    @SerialName("Not OK")
+    NOT_OK,
+
+    @SerialName("Not relevant")
+    NOT_RELEVANT,
+}
+
+@Serializable
+enum class RiScScenarioActionStatusV4 {
     @SerialName("Not started")
     NOT_STARTED,
 
