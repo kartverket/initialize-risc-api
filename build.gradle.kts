@@ -6,7 +6,7 @@ val junitVersion = "5.13.4"
 val mockkVersion = "1.14.5"
 
 plugins {
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.2.10"
     kotlin("plugin.serialization") version "2.2.0"
     id("io.ktor.plugin") version "3.2.3"
     id("org.jlleitschuh.gradle.ktlint") version "13.0.0"
