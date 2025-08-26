@@ -1,6 +1,6 @@
 # Use a minimal and secure base image
-ARG BUILD_IMAGE=eclipse-temurin:23.0.2_7-jdk-alpine-3.21
-ARG IMAGE=eclipse-temurin:23.0.2_7-jdk-alpine-3.21
+ARG BUILD_IMAGE=eclipse-temurin:24.0.2_12-jdk-alpine-3.22
+ARG IMAGE=eclipse-temurin:24.0.2_12-jre-alpine-3.22
 
 FROM ${BUILD_IMAGE} AS build
 
@@ -24,5 +24,5 @@ WORKDIR /app
 USER user
 ENTRYPOINT ["java","-jar","/app/initRiSc.jar"]
 
-HEALTHCHECK --start-period=30s --start-interval=10s --interval=5m \
+HEALTHCHECK --start-period=30s --interval=5m \
     CMD wget -O - --quiet --tries=1 http://localhost:8085/health | grep "All good" || exit 1
