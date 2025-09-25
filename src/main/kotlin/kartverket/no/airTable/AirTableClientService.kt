@@ -12,6 +12,7 @@ import io.ktor.http.path
 import kartverket.no.airTable.model.AirTableFetchRecordsResponse
 import kartverket.no.config.AppConfig
 import kartverket.no.exception.exceptions.HttpClientFetchException
+import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.RiScContent
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
@@ -27,13 +28,23 @@ object AirTableClientService {
             }
         }
 
-    suspend fun fetchDefaultRiSc() =
-        json.decodeFromString<RiScContent>(
-            fetch<AirTableFetchRecordsResponse>(
-                path = "v0/${config.baseId}/${config.tableId}",
-                queryParams = mapOf("view" to "RoS-Json"),
-            ).toRiScContentString(logger, config.recordId),
-        )
+    suspend fun fetchDefaultRiSc(defaultRiScTypes: DefaultRiScType): RiScContent {
+        val recordId =
+            when (defaultRiScTypes) {
+                DefaultRiScType.Ops -> config.recordIdOps
+                DefaultRiScType.InternalJob -> config.recordIdInternalJob
+                DefaultRiScType.Standard -> config.recordIdStandard
+            }
+
+        val riScContent =
+            json.decodeFromString<RiScContent>(
+                fetch<AirTableFetchRecordsResponse>(
+                    path = "v0/${config.baseId}/${config.tableId}",
+                    queryParams = mapOf("view" to "RoS-Json"),
+                ).toRiScContentString(logger, recordId),
+            )
+        return riScContent
+    }
 
     private suspend inline fun <reified T> fetch(
         path: String,
