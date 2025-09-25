@@ -28,9 +28,9 @@ object AirTableClientService {
             }
         }
 
-    suspend fun fetchDefaultRiSc(defaultRiScTypes: DefaultRiScType): RiScContent {
+    suspend fun fetchDefaultRiSc(defaultRiScType: DefaultRiScType): RiScContent {
         val recordId =
-            when (defaultRiScTypes) {
+            when (defaultRiScType) {
                 DefaultRiScType.Ops -> config.recordIdOps
                 DefaultRiScType.InternalJob -> config.recordIdInternalJob
                 DefaultRiScType.Standard -> config.recordIdStandard

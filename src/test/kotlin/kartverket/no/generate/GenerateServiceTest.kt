@@ -4,6 +4,7 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
+import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.generate.model.RiScScenario
 import kartverket.no.generate.model.RiScScenarioAction
@@ -34,8 +35,10 @@ class GenerateServiceTest {
         with(AppConfig.airTableConfig) {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
-            recordId = "dummyRecordId"
             apiToken = "dummyToken"
+            recordIdOps = "dummyRecordIdOps"
+            recordIdInternalJob = "dummyRecordIdInternalJob"
+            recordIdStandard = "dummyRecordIdStandard"
         }
     }
 
@@ -45,7 +48,7 @@ class GenerateServiceTest {
             mockkObject(AirTableClientService)
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc()
+                AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Standard)
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",
@@ -99,7 +102,7 @@ class GenerateServiceTest {
                         ),
                 )
 
-            val result = GenerateService.generateDefaultRiSc(inputRiSc)
+            val result = GenerateService.generateDefaultRiSc(inputRiSc, listOf(DefaultRiScType.Standard))
 
             val decodedResult = Json.decodeFromString<RiScContent>(result)
 
