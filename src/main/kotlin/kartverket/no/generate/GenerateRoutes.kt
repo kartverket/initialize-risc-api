@@ -22,21 +22,21 @@ fun Route.generateRiScRoutes() {
 
     route("/generate") {
         post {
-            val initialRiSc =
-                try {
-                    val requestBody = call.receive<GenerateRiScRequestBody>()
-                    json.decodeFromString<RiScContent>(requestBody.initialRiSc)
-                } catch (e: RequestValidationException) {
-                    return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
-                } catch (e: IllegalArgumentException) {
-                    return@post call.respond(
-                        HttpStatusCode.BadRequest,
-                        "Provided value for 'initialRiSc' in request body is not a valid RiSc.",
-                    )
-                }
-            call.respond(
-                GenerateService.generateDefaultRiSc(initialRiSc),
-            )
+            try {
+                val requestBody = call.receive<GenerateRiScRequestBody>()
+                val initialRiSc = json.decodeFromString<RiScContent>(requestBody.initialRiSc)
+                val defaultRiScTypes = requestBody.defaultRiScTypes
+                call.respond(
+                    GenerateService.generateDefaultRiSc(initialRiSc, defaultRiScTypes),
+                )
+            } catch (e: RequestValidationException) {
+                return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
+            } catch (e: IllegalArgumentException) {
+                return@post call.respond(
+                    HttpStatusCode.BadRequest,
+                    "Provided value for 'initialRiSc' in request body is not a valid RiSc.",
+                )
+            }
         }
     }
 }
