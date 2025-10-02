@@ -45,14 +45,24 @@ private fun loadConfig(
                     fullPath = "$path.apiToken",
                     logger = logger,
                 )
-            recordId = config.propertyOrNull("$path.recordId")?.getString()
-                ?: throw AppConfigInitializationException(
-                    fullPath = "$path.recordId",
-                    logger = logger,
-                )
             tableId = config.propertyOrNull("$path.tableId")?.getString()
                 ?: throw AppConfigInitializationException(
                     fullPath = "$path.tableId",
+                    logger = logger,
+                )
+            recordIdOps = config.propertyOrNull("$path.recordIdOps")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdOps",
+                    logger = logger,
+                )
+            recordIdInternalJob = config.propertyOrNull("$path.recordIdInternalJob")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdInternalJob",
+                    logger = logger,
+                )
+            recordIdStandard = config.propertyOrNull("$path.recordIdStandard")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdStandard",
                     logger = logger,
                 )
         }

@@ -14,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
+import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.GenerateRiScRequestBody
 import kartverket.no.generate.model.RiScContent
 import kotlinx.serialization.json.Json
@@ -35,14 +36,16 @@ class GenerateRiScRoutesTest {
         with(AppConfig.airTableConfig) {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
-            recordId = "dummyRecordId"
             apiToken = "dummyToken"
+            recordIdOps = "dummyRecordIdOps"
+            recordIdInternalJob = "dummyRecordIdInternalJob"
+            recordIdStandard = "dummyRecordIdStandard"
         }
 
         mockkObject(AirTableClientService)
 
         coEvery {
-            AirTableClientService.fetchDefaultRiSc()
+            AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Standard)
         } returns
             RiScContent(
                 schemaVersion = "1.0",
@@ -72,7 +75,11 @@ class GenerateRiScRoutesTest {
                 }
                 """.trimIndent()
 
-            val requestBody = GenerateRiScRequestBody(initialRiSc = validInitialRiSc)
+            val requestBody =
+                GenerateRiScRequestBody(
+                    initialRiSc = validInitialRiSc,
+                    defaultRiScTypes = listOf(DefaultRiScType.Standard),
+                )
 
             val response =
                 client.post("/generate") {
@@ -120,7 +127,11 @@ class GenerateRiScRoutesTest {
                 }
                 """.trimIndent()
 
-            val requestBody = GenerateRiScRequestBody(initialRiSc = invalidInitialRiSc)
+            val requestBody =
+                GenerateRiScRequestBody(
+                    initialRiSc = invalidInitialRiSc,
+                    defaultRiScTypes = listOf(DefaultRiScType.Standard),
+                )
 
             val response =
                 client.post("/generate") {
