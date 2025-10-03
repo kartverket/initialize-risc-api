@@ -6,9 +6,7 @@ import kartverket.no.utils.DefaultRiScTypeUtils
 
 object DescriptorService {
     suspend fun getAllRiScDescriptors(): List<RiScDescriptor> {
-        val recordIds = DefaultRiScTypeUtils.getAllRecordIds()
-        return AirTableClientService.fetchDefaultRiScDescriptors(recordIds).map {
-            it.fields.toRiScDescriptor(DefaultRiScTypeUtils.getRiScTypeFromRecordId(it.id))
-        }
+        val riScDescriptors = AirTableClientService.fetchDefaultRiScDescriptors()
+        return riScDescriptors
     }
 }

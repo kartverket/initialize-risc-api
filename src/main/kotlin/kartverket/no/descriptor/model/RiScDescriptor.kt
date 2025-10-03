@@ -10,4 +10,6 @@ data class RiScDescriptor(
     val listDescription: String,
     val defaultTitle: String,
     val defaultScope: String,
+    val numberOfScenarios: Int?,
+    val numberOfActions: Int?,
 )
