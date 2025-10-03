@@ -34,7 +34,7 @@ object AirTableClientService {
             }
         }
 
-    private suspend fun fetchDefaultRiScsFromAirTable(): AirTableFetchRecordsResponse =
+    suspend fun fetchDefaultRiScsFromAirTable(): AirTableFetchRecordsResponse =
         fetch<AirTableFetchRecordsResponse>(
             path = "v0/${config.baseId}/${config.tableId}",
         )
