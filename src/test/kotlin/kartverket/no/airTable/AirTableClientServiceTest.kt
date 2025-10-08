@@ -208,8 +208,8 @@ class AirTableClientServiceTest {
             assertEquals(1, descriptors.size)
             val eD = descriptors[0]
             assertEquals(eD.riScType, DefaultRiScType.Standard)
-            assertEquals(eD.listName, "Unknown name")
-            assertEquals(eD.listDescription, "Unknown description")
+            assertEquals(eD.listName, "Standard")
+            assertEquals(eD.listDescription, "")
             assertEquals(eD.defaultTitle, "")
             assertEquals(eD.defaultScope, "")
             assertEquals(eD.numberOfActions, null)
