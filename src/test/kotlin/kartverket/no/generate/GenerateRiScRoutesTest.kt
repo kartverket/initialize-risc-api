@@ -45,7 +45,7 @@ class GenerateRiScRoutesTest {
         mockkObject(AirTableClientService)
 
         coEvery {
-            AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Standard)
+            AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.Standard)
         } returns
             RiScContent(
                 schemaVersion = "1.0",

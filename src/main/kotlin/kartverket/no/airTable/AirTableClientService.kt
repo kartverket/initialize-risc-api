@@ -11,11 +11,17 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.path
 import kartverket.no.airTable.model.AirTableFetchRecordsResponse
 import kartverket.no.config.AppConfig
+import kartverket.no.descriptor.model.RiScDescriptor
+import kartverket.no.exception.exceptions.AirTableEntityNotFoundException
 import kartverket.no.exception.exceptions.HttpClientFetchException
 import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.RiScContent
+import kartverket.no.utils.DefaultRiScTypeUtils
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
+import kotlin.collections.emptyMap
+import kotlin.collections.firstOrNull
+import kotlin.collections.map
 
 object AirTableClientService {
     private val config = AppConfig.airTableConfig
@@ -28,22 +34,30 @@ object AirTableClientService {
             }
         }
 
-    suspend fun fetchDefaultRiSc(defaultRiScType: DefaultRiScType): RiScContent {
-        val recordId =
-            when (defaultRiScType) {
-                DefaultRiScType.Ops -> config.recordIdOps
-                DefaultRiScType.InternalJob -> config.recordIdInternalJob
-                DefaultRiScType.Standard -> config.recordIdStandard
-            }
+    suspend fun fetchDefaultRiScsFromAirTable(): AirTableFetchRecordsResponse =
+        fetch<AirTableFetchRecordsResponse>(
+            path = "v0/${config.baseId}/${config.tableId}",
+        )
 
-        val riScContent =
-            json.decodeFromString<RiScContent>(
-                fetch<AirTableFetchRecordsResponse>(
-                    path = "v0/${config.baseId}/${config.tableId}",
-                    queryParams = mapOf("view" to "RoS-Json"),
-                ).toRiScContentString(logger, recordId),
-            )
-        return riScContent
+    suspend fun fetchDefaultRiScContent(defaultRiScType: DefaultRiScType): RiScContent {
+        val recordId = DefaultRiScTypeUtils.getRecordIdFromRiScType(defaultRiScType)
+        val riScs = fetchDefaultRiScsFromAirTable()
+        val riSc = riScs.records.firstOrNull { it.id == recordId }
+        if (riSc == null) {
+            throw AirTableEntityNotFoundException(logger, "RiSc of type ${defaultRiScType.name} could not be found in Airtable.")
+        }
+        return riSc.fields.toRiScContent()
+    }
+
+    suspend fun fetchDefaultRiScDescriptors(): List<RiScDescriptor> {
+        val riScs = fetchDefaultRiScsFromAirTable()
+        val recordIds = DefaultRiScTypeUtils.getAllRecordIds()
+        val content =
+            riScs.records
+                .filter { it.id in recordIds }
+                .map { it.fields.toRiScDescriptor(DefaultRiScTypeUtils.getRiScTypeFromRecordId(it.id)) }
+
+        return content
     }
 
     private suspend inline fun <reified T> fetch(

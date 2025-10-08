@@ -1,9 +1,8 @@
-package kartverket.no.generate.utils
+package kartverket.no.utils
 
 import io.ktor.server.plugins.requestvalidation.ValidationResult
 import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.GenerateRiScRequestBody
-import kartverket.no.utils.Validators
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

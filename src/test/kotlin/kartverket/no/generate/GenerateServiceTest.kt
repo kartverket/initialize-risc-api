@@ -48,7 +48,7 @@ class GenerateServiceTest {
             mockkObject(AirTableClientService)
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Standard)
+                AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.Standard)
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",
@@ -128,7 +128,7 @@ class GenerateServiceTest {
                 )
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Standard)
+                AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.Standard)
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",
@@ -193,7 +193,7 @@ class GenerateServiceTest {
                 )
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc(DefaultRiScType.Ops)
+                AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.Ops)
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",
@@ -257,7 +257,7 @@ class GenerateServiceTest {
                 )
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc(DefaultRiScType.InternalJob)
+                AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.InternalJob)
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",

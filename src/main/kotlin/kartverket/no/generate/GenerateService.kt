@@ -19,14 +19,14 @@ object GenerateService {
         defaultRiScTypes: List<DefaultRiScType>,
     ): String {
         // For now only a single default risc is fetched (The first risc in the defaultRiScs list)
-        val defaultRiScToFetch =
+        val defaultRiScType =
             if (defaultRiScTypes.isEmpty()) {
                 DefaultRiScType.Standard
             } else {
                 defaultRiScTypes[0]
             }
         return generateInitialRiScContent(
-            AirTableClientService.fetchDefaultRiSc(defaultRiScToFetch),
+            AirTableClientService.fetchDefaultRiScContent(defaultRiScType),
             initialRiScContent,
         ).content
     }

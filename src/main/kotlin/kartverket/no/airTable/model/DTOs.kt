@@ -1,25 +1,19 @@
 package kartverket.no.airTable.model
 
+import kartverket.no.airTable.AirTableClientService
+import kartverket.no.descriptor.model.RiScDescriptor
 import kartverket.no.exception.exceptions.RetrieveDefaultRiScContentFromAirTableFetchRecordsResponseException
+import kartverket.no.generate.model.DefaultRiScType
+import kartverket.no.generate.model.RiScContent
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.slf4j.Logger
+import kotlinx.serialization.json.Json
+import org.slf4j.LoggerFactory
 
 @Serializable
 data class AirTableFetchRecordsResponse(
     val records: List<AirTableRecord>,
-) {
-    fun toRiScContentString(
-        logger: Logger,
-        recordId: String,
-    ) = this.records
-        .firstOrNull { it.id == recordId }
-        ?.fields
-        ?.rosJson
-        ?: throw RetrieveDefaultRiScContentFromAirTableFetchRecordsResponseException(
-            logger,
-            "Unable to retrieve default RiSc JSON from AirTable response",
-        )
-}
+)
 
 @Serializable
 data class AirTableRecord(
@@ -29,5 +23,37 @@ data class AirTableRecord(
 
 @Serializable
 data class AirTableFields(
-    val rosJson: String,
-)
+    val rosJson: String? = null,
+    @SerialName("List-name") val listName: String? = null,
+    @SerialName("List-description") val listDescription: String? = null,
+    @SerialName("Title") val defaultTitle: String? = null,
+    @SerialName("Scope") val defaultScope: String? = null,
+    @SerialName("Antall scenarier") val numberOfScenarios: Int? = null,
+    @SerialName("Antall tiltak") val numberOfActions: Int? = null,
+) {
+    companion object {
+        private val logger = LoggerFactory.getLogger(AirTableClientService::class.java)
+        private val json = Json { ignoreUnknownKeys = true }
+    }
+
+    fun toRiScDescriptor(defaultRiScType: DefaultRiScType): RiScDescriptor =
+        RiScDescriptor(
+            riScType = defaultRiScType,
+            listName = listName ?: defaultRiScType.name,
+            listDescription = listDescription ?: "",
+            defaultTitle = defaultTitle ?: "",
+            defaultScope = defaultScope ?: "",
+            numberOfScenarios = numberOfScenarios,
+            numberOfActions = numberOfActions,
+        )
+
+    fun toRiScContent(): RiScContent {
+        if (rosJson == null) {
+            throw RetrieveDefaultRiScContentFromAirTableFetchRecordsResponseException(
+                logger,
+                "Unable to retrieve default RiSc JSON from AirTable response",
+            )
+        }
+        return json.decodeFromString<RiScContent>(rosJson)
+    }
+}
