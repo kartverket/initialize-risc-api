@@ -39,8 +39,8 @@ data class AirTableFields(
     fun toRiScDescriptor(defaultRiScType: DefaultRiScType): RiScDescriptor =
         RiScDescriptor(
             riScType = defaultRiScType,
-            listName = listName ?: "Unknown name",
-            listDescription = listDescription ?: "Unknown description",
+            listName = listName ?: defaultRiScType.name,
+            listDescription = listDescription ?: "",
             defaultTitle = defaultTitle ?: "",
             defaultScope = defaultScope ?: "",
             numberOfScenarios = numberOfScenarios,
