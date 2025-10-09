@@ -24,6 +24,7 @@ fun Route.generateRiScRoutes() {
         post {
             try {
                 val requestBody = call.receive<GenerateRiScRequestBody>()
+                // comment
                 val initialRiSc = json.decodeFromString<RiScContent>(requestBody.initialRiSc)
                 val defaultRiScTypes = requestBody.defaultRiScTypes
                 call.respond(
