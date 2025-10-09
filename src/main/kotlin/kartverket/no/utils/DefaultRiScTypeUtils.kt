@@ -1,25 +1,31 @@
 package kartverket.no.utils
 
 import kartverket.no.config.AppConfig
+import kartverket.no.descriptor.model.RiScTypeRecordId
 import kartverket.no.generate.model.DefaultRiScType
 
 object DefaultRiScTypeUtils {
     private val config = AppConfig.airTableConfig
 
+    private val riScTypeRecordIdMapping: List<RiScTypeRecordId> =
+        listOf(
+            RiScTypeRecordId(DefaultRiScType.Standard, config.recordIdStandard),
+            RiScTypeRecordId(DefaultRiScType.InternalJob, config.recordIdInternalJob),
+            RiScTypeRecordId(DefaultRiScType.Ops, config.recordIdOps),
+        )
+    private val defaultRiscTypeRecordId = RiScTypeRecordId(DefaultRiScType.Standard, config.recordIdStandard)
+
     fun getRecordIdFromRiScType(defaultRiScType: DefaultRiScType): String =
-        when (defaultRiScType) {
-            DefaultRiScType.Ops -> config.recordIdOps
-            DefaultRiScType.InternalJob -> config.recordIdInternalJob
-            DefaultRiScType.Standard -> config.recordIdStandard
-        }
+        riScTypeRecordIdMapping
+            .find {
+                it.riScType == defaultRiScType
+            }?.recordId ?: defaultRiscTypeRecordId.recordId
 
     fun getRiScTypeFromRecordId(recordId: String): DefaultRiScType =
-        when (recordId) {
-            config.recordIdOps -> DefaultRiScType.Ops
-            config.recordIdInternalJob -> DefaultRiScType.InternalJob
-            config.recordIdStandard -> DefaultRiScType.Standard
-            else -> DefaultRiScType.Standard
-        }
+        riScTypeRecordIdMapping
+            .find {
+                it.recordId == recordId
+            }?.riScType ?: defaultRiscTypeRecordId.riScType
 
-    fun getAllRecordIds(): Set<String> = setOf(config.recordIdOps, config.recordIdInternalJob, config.recordIdStandard)
+    fun getAllRecordIds(): Set<String> = riScTypeRecordIdMapping.map { it.recordId }.toSet()
 }
