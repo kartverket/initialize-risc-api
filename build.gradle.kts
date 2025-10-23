@@ -1,7 +1,7 @@
 val kotlinVersion = "2.2.20"
 val ktorVersion = "3.3.0"
 val logbackVersion = "1.5.18"
-val nettyHandlerVersion = "4.2.4.Final"
+val nettyHandlerVersion = "4.2.5.Final"
 val junitVersion = "5.13.4"
 val mockkVersion = "1.14.5"
 
@@ -45,7 +45,7 @@ repositories {
 configurations.all {
     resolutionStrategy.eachDependency {
         if (requested.group == "io.netty" && requested.name == "netty-codec-http2") {
-            useVersion("4.2.4.Final") // Sårbarhet i io.netty:netty-codec-http2. 2025-08-20
+            useVersion("4.2.5.Final") // Sårbarhet i io.netty:netty-codec-http2. 2025-08-20
         }
     }
 }
