@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: initialize-risc-api
+  name: initialize-risc
   tags:
     - internal
 spec:
@@ -23,6 +23,7 @@ spec:
   type: openapi
   lifecycle: production
   owner: skvis
+  system: ros-as-code
   definition: |
     openapi: "3.0.0"
     info:
