@@ -66,10 +66,10 @@ private fun loadConfig(
                     logger = logger,
                 )
             recordIdBegrenset = config.propertyOrNull("$path.recordIdBegrenset")?.getString()
-            ?: throw AppConfigInitializationException(
+                ?: throw AppConfigInitializationException(
                     fullPath = "$path.recordIdBegrenset",
-                logger = logger,
-            )
+                    logger = logger,
+                )
         }
 }
 
