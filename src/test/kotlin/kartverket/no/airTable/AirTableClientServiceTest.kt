@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 
 class AirTableClientServiceTest {
     val airTableRecordOps =
@@ -64,7 +63,20 @@ class AirTableClientServiceTest {
                     numberOfActions = 4,
                 ),
         )
-
+    val airTableRecordBegrenset =
+        AirTableRecord(
+            id = "rec-beg",
+            fields =
+                AirTableFields(
+                    rosJson = "{}",
+                    listName = "Begrenset",
+                    listDescription = "A begrenset job",
+                    defaultTitle = "Initial RiSc - Begrenset",
+                    defaultScope = "RiSc generated for <begrenset>",
+                    numberOfScenarios = 1,
+                    numberOfActions = 1,
+                ),
+        )
     val airTableRecordEmpty =
         AirTableRecord(
             id = "rec-sta",
@@ -73,7 +85,7 @@ class AirTableClientServiceTest {
 
     val exampleAirtableFetchResponse =
         AirTableFetchRecordsResponse(
-            records = listOf(airTableRecordOps, airTableRecordInternalJob, airTableRecordStandard),
+            records = listOf(airTableRecordOps, airTableRecordInternalJob, airTableRecordStandard, airTableRecordBegrenset),
         )
 
     val emptyAirtableFetchResponse =
@@ -97,6 +109,7 @@ class AirTableClientServiceTest {
             recordIdOps = "rec-ops"
             recordIdInternalJob = "rec-int"
             recordIdStandard = "rec-sta"
+            recordIdBegrenset = "rec-beg"
         }
     }
 
@@ -109,15 +122,17 @@ class AirTableClientServiceTest {
             coEvery {
                 airTableClientService.fetchDefaultRiScsFromAirTable()
             } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int")
+            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int", "rec-beg")
 
             val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
 
-            assertEquals(2, descriptors.size)
+            assertEquals(3, descriptors.size)
 
-            assertNotEquals(descriptors[0].listName, descriptors[1].listName)
+            // ensure no duplicate list names
+            assertEquals(descriptors.map { it.listName }.distinct().size, descriptors.size)
             assertTrue(airTableRecordOps.fields.listName in descriptors.map { it.listName })
             assertTrue(airTableRecordInternalJob.fields.listName in descriptors.map { it.listName })
+            assertTrue(airTableRecordBegrenset.fields.listName in descriptors.map { it.listName })
             assertFalse(airTableRecordStandard.fields.listName in descriptors.map { it.listName })
         }
 
@@ -146,26 +161,29 @@ class AirTableClientServiceTest {
             coEvery {
                 airTableClientService.fetchDefaultRiScsFromAirTable()
             } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int", "rec-sta")
+            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int", "rec-sta", "rec-beg")
 
             val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
 
-            assertEquals(3, descriptors.size)
+            assertEquals(4, descriptors.size)
 
             var containsStandard = false
             var containsInternalJob = false
             var containsOps = false
+            var containsBegrenset = false
 
             for (descriptor in descriptors) {
                 when (descriptor.riScType) {
                     DefaultRiScType.Standard -> containsStandard = true
                     DefaultRiScType.InternalJob -> containsInternalJob = true
                     DefaultRiScType.Ops -> containsOps = true
+                    DefaultRiScType.Begrenset -> containsBegrenset = true
                 }
             }
             assertTrue(containsStandard)
             assertTrue(containsInternalJob)
             assertTrue(containsOps)
+            assertTrue(containsBegrenset)
         }
 
     @Test
