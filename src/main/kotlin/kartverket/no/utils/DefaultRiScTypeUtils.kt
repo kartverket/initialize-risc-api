@@ -12,6 +12,7 @@ object DefaultRiScTypeUtils {
             RiScTypeRecordId(DefaultRiScType.Standard, config.recordIdStandard),
             RiScTypeRecordId(DefaultRiScType.InternalJob, config.recordIdInternalJob),
             RiScTypeRecordId(DefaultRiScType.Ops, config.recordIdOps),
+            RiScTypeRecordId(DefaultRiScType.Begrenset, config.recordIdBegrenset),
         )
     private val defaultRiscTypeRecordId = RiScTypeRecordId(DefaultRiScType.Standard, config.recordIdStandard)
 
