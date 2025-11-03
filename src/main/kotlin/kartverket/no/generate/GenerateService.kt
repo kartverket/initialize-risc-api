@@ -2,7 +2,6 @@ package kartverket.no.generate
 
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.generate.model.DefaultInitialRiSc
-import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.RiScContent
 import kotlinx.serialization.json.Json
 
@@ -16,20 +15,12 @@ object GenerateService {
      */
     suspend fun generateDefaultRiSc(
         initialRiScContent: RiScContent,
-        defaultRiScTypes: List<DefaultRiScType>,
-    ): String {
-        // For now only a single default risc is fetched (The first risc in the defaultRiScs list)
-        val defaultRiScType =
-            if (defaultRiScTypes.isEmpty()) {
-                DefaultRiScType.Standard
-            } else {
-                defaultRiScTypes[0]
-            }
-        return generateInitialRiScContent(
-            AirTableClientService.fetchDefaultRiScContent(defaultRiScType),
+        defaultRiScId: String,
+    ): String =
+        generateInitialRiScContent(
+            AirTableClientService.fetchDefaultRiScContent(defaultRiScId),
             initialRiScContent,
         ).content
-    }
 
     private fun generateInitialRiScContent(
         defaultRiSc: RiScContent,

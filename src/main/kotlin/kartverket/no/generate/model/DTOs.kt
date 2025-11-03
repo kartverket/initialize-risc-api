@@ -13,5 +13,5 @@ enum class DefaultRiScType {
 @Serializable
 data class GenerateRiScRequestBody(
     val initialRiSc: String,
-    val defaultRiScTypes: List<DefaultRiScType>,
+    val defaultRiScId: String,
 )
