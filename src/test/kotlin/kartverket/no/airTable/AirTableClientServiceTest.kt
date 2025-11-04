@@ -1,20 +1,17 @@
 package kartverket.no.descriptor
 
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.mockkObject
 import io.mockk.spyk
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.airTable.model.AirTableFetchRecordsResponse
 import kartverket.no.airTable.model.AirTableFields
 import kartverket.no.airTable.model.AirTableRecord
 import kartverket.no.config.AppConfig
-import kartverket.no.generate.model.DefaultRiScType
-import kartverket.no.utils.DefaultRiScTypeUtils
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNotNull
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -32,6 +29,8 @@ class AirTableClientServiceTest {
                     defaultScope = "RiSc generated for <ops>",
                     numberOfScenarios = 3,
                     numberOfActions = 22,
+                    priorityIndex = 2,
+                    preferredBackstageComponentType = "operational",
                 ),
         )
 
@@ -47,6 +46,8 @@ class AirTableClientServiceTest {
                     defaultScope = "RiSc generated for <internal job>",
                     numberOfScenarios = 5,
                     numberOfActions = 70,
+                    priorityIndex = 1,
+                    preferredBackstageComponentType = null,
                 ),
         )
 
@@ -62,13 +63,15 @@ class AirTableClientServiceTest {
                     defaultScope = "RiSc generated for <standard>",
                     numberOfScenarios = 2,
                     numberOfActions = 4,
+                    priorityIndex = null,
+                    preferredBackstageComponentType = "website",
                 ),
         )
 
     val airTableRecordEmpty =
         AirTableRecord(
             id = "rec-sta",
-            fields = AirTableFields(),
+            fields = AirTableFields(priorityIndex = 1),
         )
 
     val exampleAirtableFetchResponse =
@@ -104,115 +107,63 @@ class AirTableClientServiceTest {
     fun `fetchDefaultRiScDescriptors filters out irrelevant riscs`() =
         runTest {
             val airTableClientService = spyk<AirTableClientService>()
-            mockkObject(DefaultRiScTypeUtils)
-
             coEvery {
                 airTableClientService.fetchDefaultRiScsFromAirTable()
             } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int")
 
             val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
 
             assertEquals(2, descriptors.size)
 
-            assertNotEquals(descriptors[0].listName, descriptors[1].listName)
-            assertTrue(airTableRecordOps.fields.listName in descriptors.map { it.listName })
-            assertTrue(airTableRecordInternalJob.fields.listName in descriptors.map { it.listName })
-            assertFalse(airTableRecordStandard.fields.listName in descriptors.map { it.listName })
-        }
-
-    @Test
-    fun `fetchDefaultRiScDescriptors does not fetch riscs when ids are wrong`() =
-        runTest {
-            val airTableClientService = spyk<AirTableClientService>()
-            mockkObject(DefaultRiScTypeUtils)
-
-            coEvery {
-                airTableClientService.fetchDefaultRiScsFromAirTable()
-            } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-does-not-exist", "rec-int")
-
-            val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
-
-            assertEquals(1, descriptors.size)
-        }
-
-    @Test
-    fun `fetchDefaultRiScDescriptors sets correct risc type`() =
-        runTest {
-            val airTableClientService = spyk<AirTableClientService>()
-            mockkObject(DefaultRiScTypeUtils)
-
-            coEvery {
-                airTableClientService.fetchDefaultRiScsFromAirTable()
-            } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-ops", "rec-int", "rec-sta")
-
-            val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
-
-            assertEquals(3, descriptors.size)
-
-            var containsStandard = false
-            var containsInternalJob = false
-            var containsOps = false
-
-            for (descriptor in descriptors) {
-                when (descriptor.riScType) {
-                    DefaultRiScType.Standard -> containsStandard = true
-                    DefaultRiScType.InternalJob -> containsInternalJob = true
-                    DefaultRiScType.Ops -> containsOps = true
-                }
-            }
-            assertTrue(containsStandard)
-            assertTrue(containsInternalJob)
-            assertTrue(containsOps)
+            assertNotEquals(descriptors[0].id, descriptors[1].id)
+            assertTrue(airTableRecordOps.id in descriptors.map { it.id })
+            assertTrue(airTableRecordInternalJob.id in descriptors.map { it.id })
+            assertFalse(airTableRecordStandard.id in descriptors.map { it.id })
         }
 
     @Test
     fun `fetchDefaultRiScDescriptors returns descriptors with correct values when riscs have non-null values`() =
         runTest {
             val airTableClientService = spyk<AirTableClientService>()
-            mockkObject(DefaultRiScTypeUtils)
-
             coEvery {
                 airTableClientService.fetchDefaultRiScsFromAirTable()
             } returns exampleAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-sta")
 
             val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
 
-            assertEquals(1, descriptors.size)
-            val sD = descriptors[0]
-            assertEquals(sD.riScType, DefaultRiScType.Standard)
-            assertEquals(sD.listName, airTableRecordStandard.fields.listName)
-            assertEquals(sD.listDescription, airTableRecordStandard.fields.listDescription)
-            assertEquals(sD.defaultTitle, airTableRecordStandard.fields.defaultTitle)
-            assertEquals(sD.defaultScope, airTableRecordStandard.fields.defaultScope)
-            assertEquals(sD.numberOfActions, airTableRecordStandard.fields.numberOfActions)
-            assertEquals(sD.numberOfScenarios, airTableRecordStandard.fields.numberOfScenarios)
+            val sD = descriptors.find { it.id == airTableRecordOps.id }
+            assertNotNull(sD)
+            assertEquals(sD.id, airTableRecordOps.id)
+            assertEquals(sD.listName, airTableRecordOps.fields.listName)
+            assertEquals(sD.listDescription, airTableRecordOps.fields.listDescription)
+            assertEquals(sD.defaultTitle, airTableRecordOps.fields.defaultTitle)
+            assertEquals(sD.defaultScope, airTableRecordOps.fields.defaultScope)
+            assertEquals(sD.numberOfActions, airTableRecordOps.fields.numberOfActions)
+            assertEquals(sD.numberOfScenarios, airTableRecordOps.fields.numberOfScenarios)
+            assertEquals(sD.preferredBackstageComponentType, airTableRecordOps.fields.preferredBackstageComponentType)
+            assertEquals(sD.priorityIndex, airTableRecordOps.fields.priorityIndex)
         }
 
     @Test
     fun `fetchDefaultRiScDescriptors returns descriptors with correct values when riscs have null values`() =
         runTest {
             val airTableClientService = spyk<AirTableClientService>()
-            mockkObject(DefaultRiScTypeUtils)
-
             coEvery {
                 airTableClientService.fetchDefaultRiScsFromAirTable()
             } returns emptyAirtableFetchResponse
-            every { DefaultRiScTypeUtils.getAllRecordIds() } returns setOf("rec-sta")
 
             val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
 
             assertEquals(1, descriptors.size)
             val eD = descriptors[0]
-            assertEquals(eD.riScType, DefaultRiScType.Standard)
-            assertEquals(eD.listName, "Standard")
+            assertEquals(eD.id, "rec-sta")
+            assertEquals(eD.listName, "")
             assertEquals(eD.listDescription, "")
             assertEquals(eD.defaultTitle, "")
             assertEquals(eD.defaultScope, "")
             assertEquals(eD.numberOfActions, null)
             assertEquals(eD.numberOfScenarios, null)
+            assertEquals(eD.preferredBackstageComponentType, null)
+            assertEquals(eD.priorityIndex, 1)
         }
 }
