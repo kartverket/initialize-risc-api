@@ -28,7 +28,8 @@ data class AirTableRecord(
             defaultScope = fields.defaultScope ?: "",
             numberOfScenarios = fields.numberOfScenarios,
             numberOfActions = fields.numberOfActions,
-            preferredEntityType = fields.preferredEntityType,
+            preferredBackstageComponentType = fields.preferredBackstageComponentType,
+            priorityIndex = fields.priorityIndex,
         )
 }
 
@@ -41,8 +42,8 @@ data class AirTableFields(
     @SerialName("Scope") val defaultScope: String? = null,
     @SerialName("Antall scenarier") val numberOfScenarios: Int? = null,
     @SerialName("Antall tiltak") val numberOfActions: Int? = null,
-    @SerialName("orderIndex") val orderIndex: Int? = null,
-    @SerialName("preferredEntityType") val preferredEntityType: String? = null,
+    @SerialName("Priority") val priorityIndex: Int? = null,
+    @SerialName("Backstage-component-type") val preferredBackstageComponentType: String? = null,
 ) {
     companion object {
         private val logger = LoggerFactory.getLogger(AirTableClientService::class.java)

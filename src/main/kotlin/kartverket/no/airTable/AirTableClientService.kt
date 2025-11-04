@@ -49,8 +49,8 @@ object AirTableClientService {
     suspend fun fetchDefaultRiScDescriptors(): List<RiScDescriptor> {
         val riScs = fetchDefaultRiScsFromAirTable()
         return riScs.records
-            .filter { it.fields.orderIndex != null }
-            .sortedWith(compareBy { it.fields.orderIndex })
+            .filter { it.fields.priorityIndex != null }
+            .sortedWith(compareBy { it.fields.priorityIndex })
             .map { it.toRiScDescriptor() }
     }
 
