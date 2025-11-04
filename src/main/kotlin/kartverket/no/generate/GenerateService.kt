@@ -11,7 +11,7 @@ object GenerateService {
      * defaultRiScTypes list is used when generating.
      *
      * @param initialRiScContent Content of current initial RiSc before adding content of default RiScs
-     * @param defaultRiScTypes The RiSc types from which the default RiSc will be generated.
+     * @param defaultRiScId ID of the default RiSc to use for generation
      */
     suspend fun generateDefaultRiSc(
         initialRiScContent: RiScContent,
