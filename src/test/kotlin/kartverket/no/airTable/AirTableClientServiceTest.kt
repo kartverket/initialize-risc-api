@@ -185,7 +185,7 @@ class AirTableClientServiceTest {
         }
 
     @Test
-    fun `fetchDefaultRiScDescriptors returns descriptors with correct order`() =
+    fun `fetchDefaultRiScDescriptors returns descriptors ordered by priority`() =
         runTest {
             val airTableClientService = spyk<AirTableClientService>()
             coEvery {
