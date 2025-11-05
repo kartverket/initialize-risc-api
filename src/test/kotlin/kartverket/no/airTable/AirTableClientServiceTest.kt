@@ -79,6 +79,26 @@ class AirTableClientServiceTest {
             records = listOf(airTableRecordOps, airTableRecordInternalJob, airTableRecordStandard),
         )
 
+    val sortingTestAirtableFetchResponse =
+        AirTableFetchRecordsResponse(
+            listOf(
+                AirTableRecord("id1", AirTableFields(priorityIndex = 7)),
+                AirTableRecord("id2", AirTableFields(priorityIndex = null)),
+                AirTableRecord("id3", AirTableFields(priorityIndex = 3)),
+                AirTableRecord("id4", AirTableFields(priorityIndex = null)),
+                AirTableRecord("id5", AirTableFields(priorityIndex = 9)),
+                AirTableRecord("id6", AirTableFields(priorityIndex = 1)),
+                AirTableRecord("id7", AirTableFields(priorityIndex = 6)),
+                AirTableRecord("id8", AirTableFields(priorityIndex = null)),
+                AirTableRecord("id9", AirTableFields(priorityIndex = null)),
+                AirTableRecord("id10", AirTableFields(priorityIndex = 5)),
+                AirTableRecord("id11", AirTableFields(priorityIndex = 2)),
+                AirTableRecord("id12", AirTableFields(priorityIndex = 8)),
+                AirTableRecord("id13", AirTableFields(priorityIndex = 4)),
+                AirTableRecord("id14", AirTableFields(priorityIndex = null)),
+            ),
+        )
+
     val emptyAirtableFetchResponse =
         AirTableFetchRecordsResponse(
             records = listOf(airTableRecordEmpty),
@@ -162,5 +182,27 @@ class AirTableClientServiceTest {
             assertEquals(eD.numberOfScenarios, null)
             assertEquals(eD.preferredBackstageComponentType, null)
             assertEquals(eD.priorityIndex, 1)
+        }
+
+    @Test
+    fun `fetchDefaultRiScDescriptors returns descriptors with correct order`() =
+        runTest {
+            val airTableClientService = spyk<AirTableClientService>()
+            coEvery {
+                airTableClientService.fetchDefaultRiScsFromAirTable()
+            } returns sortingTestAirtableFetchResponse
+
+            val descriptors = airTableClientService.fetchDefaultRiScDescriptors()
+
+            assertEquals(9, descriptors.size)
+            assertEquals("id6", descriptors[0].id)
+            assertEquals("id11", descriptors[1].id)
+            assertEquals("id3", descriptors[2].id)
+            assertEquals("id13", descriptors[3].id)
+            assertEquals("id10", descriptors[4].id)
+            assertEquals("id7", descriptors[5].id)
+            assertEquals("id1", descriptors[6].id)
+            assertEquals("id12", descriptors[7].id)
+            assertEquals("id5", descriptors[8].id)
         }
 }
