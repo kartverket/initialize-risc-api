@@ -35,9 +35,6 @@ class GenerateServiceTest {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
             apiToken = "dummyToken"
-            recordIdOps = "dummyRecordIdOps"
-            recordIdInternalJob = "dummyRecordIdInternalJob"
-            recordIdStandard = "dummyRecordIdStandard"
         }
     }
 

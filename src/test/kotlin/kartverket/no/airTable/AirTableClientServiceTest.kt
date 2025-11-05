@@ -97,9 +97,6 @@ class AirTableClientServiceTest {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
             apiToken = "dummyToken"
-            recordIdOps = "rec-ops"
-            recordIdInternalJob = "rec-int"
-            recordIdStandard = "rec-sta"
         }
     }
 
