@@ -1,13 +1,13 @@
-val kotlinVersion = "2.2.20"
+val kotlinVersion = "2.2.21"
 val ktorVersion = "3.3.0"
-val logbackVersion = "1.5.18"
+val logbackVersion = "1.5.20"
 val nettyHandlerVersion = "4.2.7.Final"
 val junitVersion = "5.13.4"
 val mockkVersion = "1.14.5"
 
 plugins {
     kotlin("jvm") version "2.2.10"
-    kotlin("plugin.serialization") version "2.2.10"
+    kotlin("plugin.serialization") version "2.2.21"
     id("io.ktor.plugin") version "3.3.0"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
 }
