@@ -1,6 +1,7 @@
 package kartverket.no.utils
 
 import io.ktor.server.plugins.requestvalidation.ValidationResult
+import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.GenerateRiScRequestBody
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -13,7 +14,7 @@ class ValidatorsTest {
             Validators.validate(
                 GenerateRiScRequestBody(
                     "",
-                    "id",
+                    listOf(DefaultRiScType.Standard),
                 ),
             )
 
@@ -27,7 +28,7 @@ class ValidatorsTest {
             Validators.validate(
                 GenerateRiScRequestBody(
                     "{ \"not\": \"empty\" }",
-                    "id",
+                    listOf(DefaultRiScType.Standard),
                 ),
             )
         assertEquals(ValidationResult.Valid, result)
