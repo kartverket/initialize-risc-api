@@ -50,6 +50,26 @@ private fun loadConfig(
                     fullPath = "$path.tableId",
                     logger = logger,
                 )
+            recordIdOps = config.propertyOrNull("$path.recordIdOps")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdOps",
+                    logger = logger,
+                )
+            recordIdInternalJob = config.propertyOrNull("$path.recordIdInternalJob")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdInternalJob",
+                    logger = logger,
+                )
+            recordIdStandard = config.propertyOrNull("$path.recordIdStandard")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdStandard",
+                    logger = logger,
+                )
+            recordIdBegrenset = config.propertyOrNull("$path.recordIdBegrenset")?.getString()
+                ?: throw AppConfigInitializationException(
+                    fullPath = "$path.recordIdBegrenset",
+                    logger = logger,
+                )
         }
 }
 

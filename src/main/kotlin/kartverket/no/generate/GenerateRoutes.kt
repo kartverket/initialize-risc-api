@@ -25,9 +25,9 @@ fun Route.generateRiScRoutes() {
             try {
                 val requestBody = call.receive<GenerateRiScRequestBody>()
                 val initialRiSc = json.decodeFromString<RiScContent>(requestBody.initialRiSc)
-                val defaultRiScId = requestBody.defaultRiScId
+                val defaultRiScTypes = requestBody.defaultRiScTypes
                 call.respond(
-                    GenerateService.generateDefaultRiSc(initialRiSc, defaultRiScId),
+                    GenerateService.generateDefaultRiSc(initialRiSc, defaultRiScTypes),
                 )
             } catch (e: RequestValidationException) {
                 return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
