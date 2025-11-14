@@ -14,7 +14,6 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
-import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.GenerateRiScRequestBody
 import kartverket.no.generate.model.RiScContent
 import kotlinx.serialization.json.Json
@@ -37,15 +36,12 @@ class GenerateRiScRoutesTest {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
             apiToken = "dummyToken"
-            recordIdOps = "dummyRecordIdOps"
-            recordIdInternalJob = "dummyRecordIdInternalJob"
-            recordIdStandard = "dummyRecordIdStandard"
         }
 
         mockkObject(AirTableClientService)
 
         coEvery {
-            AirTableClientService.fetchDefaultRiScContent(DefaultRiScType.Standard)
+            AirTableClientService.fetchDefaultRiScContent("id")
         } returns
             RiScContent(
                 schemaVersion = "1.0",
@@ -78,7 +74,7 @@ class GenerateRiScRoutesTest {
             val requestBody =
                 GenerateRiScRequestBody(
                     initialRiSc = validInitialRiSc,
-                    defaultRiScTypes = listOf(DefaultRiScType.Standard),
+                    defaultRiScId = "id",
                 )
 
             val response =
@@ -99,7 +95,7 @@ class GenerateRiScRoutesTest {
                 routing { generateRiScRoutes() }
             }
 
-            val invalidRequestBody = """{ "initialRiSc": "not-a-json-object" }"""
+            val invalidRequestBody = """{ "initialRiSc": "not-a-json-object", "defaultRiScId": "id" }"""
 
             val response =
                 client.post("/generate") {
@@ -130,7 +126,7 @@ class GenerateRiScRoutesTest {
             val requestBody =
                 GenerateRiScRequestBody(
                     initialRiSc = invalidInitialRiSc,
-                    defaultRiScTypes = listOf(DefaultRiScType.Standard),
+                    defaultRiScId = "id",
                 )
 
             val response =
