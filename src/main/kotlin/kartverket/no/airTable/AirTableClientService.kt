@@ -14,9 +14,7 @@ import kartverket.no.config.AppConfig
 import kartverket.no.descriptor.model.RiScDescriptor
 import kartverket.no.exception.exceptions.AirTableEntityNotFoundException
 import kartverket.no.exception.exceptions.HttpClientFetchException
-import kartverket.no.generate.model.DefaultRiScType
 import kartverket.no.generate.model.RiScContent
-import kartverket.no.utils.DefaultRiScTypeUtils
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import kotlin.collections.emptyMap
@@ -39,25 +37,21 @@ object AirTableClientService {
             path = "v0/${config.baseId}/${config.tableId}",
         )
 
-    suspend fun fetchDefaultRiScContent(defaultRiScType: DefaultRiScType): RiScContent {
-        val recordId = DefaultRiScTypeUtils.getRecordIdFromRiScType(defaultRiScType)
+    suspend fun fetchDefaultRiScContent(defaultRiScId: String): RiScContent {
         val riScs = fetchDefaultRiScsFromAirTable()
-        val riSc = riScs.records.firstOrNull { it.id == recordId }
+        val riSc = riScs.records.firstOrNull { it.id == defaultRiScId }
         if (riSc == null) {
-            throw AirTableEntityNotFoundException(logger, "RiSc of type ${defaultRiScType.name} could not be found in Airtable.")
+            throw AirTableEntityNotFoundException(logger, "RiSc of ID $defaultRiScId could not be found in Airtable.")
         }
         return riSc.fields.toRiScContent()
     }
 
     suspend fun fetchDefaultRiScDescriptors(): List<RiScDescriptor> {
         val riScs = fetchDefaultRiScsFromAirTable()
-        val recordIds = DefaultRiScTypeUtils.getAllRecordIds()
-        val content =
-            riScs.records
-                .filter { it.id in recordIds }
-                .map { it.fields.toRiScDescriptor(DefaultRiScTypeUtils.getRiScTypeFromRecordId(it.id)) }
-
-        return content
+        return riScs.records
+            .filter { it.fields.priorityIndex != null }
+            .sortedWith(compareBy { it.fields.priorityIndex })
+            .map { it.toRiScDescriptor() }
     }
 
     private suspend inline fun <reified T> fetch(
