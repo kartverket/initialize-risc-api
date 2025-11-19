@@ -4,19 +4,19 @@
 ## Run the application
 `intialize-risc-api` needs some environment variables to be runned.
 
-| Env var                         | Description                                                   | Required? |
-|---------------------------------|---------------------------------------------------------------|-----------|
-| AIRTABLE_API_TOKEN              | API token used to authenticate requests to the Airtable API.  | ✅         |
-| AIRTABLE_BASE_ID                | Identifier for the specific Airtable base being accessed.     | ✅         |
-| AIRTABLE_RECORD_ID              | ID of a particular record in the Airtable base.               | ✅         |
-| AIRTABLE_TABLE_ID               | ID of a particular table in the Airtable base.                | ✅         |
-| SECURITY_TEAM_PUBLIC_KEY        | Public key used in RiSc generation                            | ✅         |
-| SECURITY_PLATFORM_PUBLIC_KEY    | Public key used in RiSc generation                            | ✅         |
-| BACKEND_PUBLIC_KEY              | Public key used in RiSc generation.                           | ✅         |
-| AIRTABLE_RECORD_ID_OPS          | Airtable record ID for OPS initial risc                       | ✅         |
-| AIRTABLE_RECORD_ID_INTERNAL_JOB | Airtable record ID for the Internal initial risc              | ✅         |
-| AIRTABLE_RECORD_ID_STANDARD     | Airtable record ID for the Standard initial risc              | ✅         |
-| AIRTABLE_RECORD_ID_BEGRENSET    | Airtable record ID for the Begrenset initial risc             | ✅         |
+| Env var                         | Description                                                  | Required? |
+|---------------------------------|--------------------------------------------------------------|-----------|
+| AIRTABLE_API_TOKEN              | API token used to authenticate requests to the Airtable API  | ✅         |
+| AIRTABLE_BASE_ID                | Identifier for the specific Airtable base being accessed     | ✅         |
+| AIRTABLE_RECORD_ID              | ID of a particular record in the Airtable base               | ✅         |
+| AIRTABLE_TABLE_ID               | ID of a particular table in the Airtable base                | ✅         |
+| SECURITY_TEAM_PUBLIC_KEY        | Public key used in RiSc generation                           | ✅         |
+| SECURITY_PLATFORM_PUBLIC_KEY    | Public key used in RiSc generation                           | ✅         |
+| BACKEND_PUBLIC_KEY              | Public key used in RiSc generation                           | ✅         |
+| AIRTABLE_RECORD_ID_OPS          | Airtable record ID for OPS initial risc                      | ✅         |
+| AIRTABLE_RECORD_ID_INTERNAL_JOB | Airtable record ID for the Internal initial risc             | ✅         |
+| AIRTABLE_RECORD_ID_STANDARD     | Airtable record ID for the Standard initial risc             | ✅         |
+| AIRTABLE_RECORD_ID_BEGRENSET    | Airtable record ID for the Begrenset initial risc            | ✅         |
 ---
 
 ## 🧪 Running the application locally
