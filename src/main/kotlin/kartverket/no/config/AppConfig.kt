@@ -10,7 +10,6 @@ object AirTableConfig {
     lateinit var baseUrl: String
     lateinit var baseId: String
     lateinit var apiToken: String
-    lateinit var recordId: String
     lateinit var tableId: String
 }
 

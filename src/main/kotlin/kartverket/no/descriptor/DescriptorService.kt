@@ -1,0 +1,11 @@
+package kartverket.no.descriptor
+
+import kartverket.no.airTable.AirTableClientService
+import kartverket.no.descriptor.model.RiScDescriptor
+
+object DescriptorService {
+    suspend fun getAllRiScDescriptors(): List<RiScDescriptor> {
+        val riScDescriptors = AirTableClientService.fetchDefaultRiScDescriptors()
+        return riScDescriptors
+    }
+}

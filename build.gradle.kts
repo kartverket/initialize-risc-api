@@ -1,15 +1,15 @@
-val kotlinVersion = "2.2.0"
-val ktorVersion = "3.2.3"
-val logbackVersion = "1.5.18"
-val nettyHandlerVersion = "4.2.3.Final"
+val kotlinVersion = "2.2.21"
+val ktorVersion = "3.3.0"
+val logbackVersion = "1.5.20"
+val nettyHandlerVersion = "4.2.7.Final"
 val junitVersion = "5.13.4"
 val mockkVersion = "1.14.5"
 
 plugins {
-    kotlin("jvm") version "2.2.0"
-    kotlin("plugin.serialization") version "2.2.0"
-    id("io.ktor.plugin") version "3.2.3"
-    id("org.jlleitschuh.gradle.ktlint") version "13.0.0"
+    kotlin("jvm") version "2.2.10"
+    kotlin("plugin.serialization") version "2.2.21"
+    id("io.ktor.plugin") version "3.3.0"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
 }
 
 // Specifies the usage of the currently newest version of Ktlint. `org.jlleitschuh.gradle.ktlint` version 12.2.0 is
@@ -33,11 +33,21 @@ kotlin {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_23
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
 }
 
 repositories {
     mavenCentral()
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "io.netty" && requested.name == "netty-codec-http2") {
+            useVersion("4.2.4.Final") // Sårbarhet i io.netty:netty-codec-http2. 2025-08-20
+        }
+    }
 }
 
 dependencies {
@@ -66,7 +76,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 
     constraints {
-        implementation("org.apache.commons:commons-lang3:3.18.0") {
+        implementation("org.apache.commons:commons-lang3:3.19.0") {
             because("Force secure version to fix CVE in transitive dependency from spring-boot-gradle-plugin")
         }
     }

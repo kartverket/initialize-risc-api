@@ -7,4 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GenerateRiScRequestBody(
     val initialRiSc: String,
+    val defaultRiScId: String,
 )

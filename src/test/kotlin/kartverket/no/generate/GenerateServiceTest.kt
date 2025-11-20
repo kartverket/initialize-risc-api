@@ -34,7 +34,6 @@ class GenerateServiceTest {
         with(AppConfig.airTableConfig) {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
-            recordId = "dummyRecordId"
             apiToken = "dummyToken"
         }
     }
@@ -45,7 +44,7 @@ class GenerateServiceTest {
             mockkObject(AirTableClientService)
 
             coEvery {
-                AirTableClientService.fetchDefaultRiSc()
+                AirTableClientService.fetchDefaultRiScContent("id")
             } returns
                 RiScContent(
                     schemaVersion = "defaultSchema",
@@ -99,7 +98,7 @@ class GenerateServiceTest {
                         ),
                 )
 
-            val result = GenerateService.generateDefaultRiSc(inputRiSc)
+            val result = GenerateService.generateDefaultRiSc(inputRiSc, "id")
 
             val decodedResult = Json.decodeFromString<RiScContent>(result)
 

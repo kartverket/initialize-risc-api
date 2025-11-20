@@ -35,14 +35,13 @@ class GenerateRiScRoutesTest {
         with(AppConfig.airTableConfig) {
             baseUrl = "https://dummy.airtable.com"
             baseId = "dummyBaseId"
-            recordId = "dummyRecordId"
             apiToken = "dummyToken"
         }
 
         mockkObject(AirTableClientService)
 
         coEvery {
-            AirTableClientService.fetchDefaultRiSc()
+            AirTableClientService.fetchDefaultRiScContent("id")
         } returns
             RiScContent(
                 schemaVersion = "1.0",
@@ -72,7 +71,11 @@ class GenerateRiScRoutesTest {
                 }
                 """.trimIndent()
 
-            val requestBody = GenerateRiScRequestBody(initialRiSc = validInitialRiSc)
+            val requestBody =
+                GenerateRiScRequestBody(
+                    initialRiSc = validInitialRiSc,
+                    defaultRiScId = "id",
+                )
 
             val response =
                 client.post("/generate") {
@@ -92,7 +95,7 @@ class GenerateRiScRoutesTest {
                 routing { generateRiScRoutes() }
             }
 
-            val invalidRequestBody = """{ "initialRiSc": "not-a-json-object" }"""
+            val invalidRequestBody = """{ "initialRiSc": "not-a-json-object", "defaultRiScId": "id" }"""
 
             val response =
                 client.post("/generate") {
@@ -120,7 +123,11 @@ class GenerateRiScRoutesTest {
                 }
                 """.trimIndent()
 
-            val requestBody = GenerateRiScRequestBody(initialRiSc = invalidInitialRiSc)
+            val requestBody =
+                GenerateRiScRequestBody(
+                    initialRiSc = invalidInitialRiSc,
+                    defaultRiScId = "id",
+                )
 
             val response =
                 client.post("/generate") {

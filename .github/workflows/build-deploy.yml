@@ -3,15 +3,15 @@ on:
   workflow_dispatch:
     inputs:
       commit_sha:
-        description: 'Commit hash to deploy'
-        default: ''
+        description: "Commit hash to deploy"
+        default: ""
         type: string
       dev:
-        description: 'Deploy to dev'
+        description: "Deploy to dev"
         required: true
         type: boolean
       prod:
-        description: 'Deploy to prod'
+        description: "Deploy to prod"
         required: true
         type: boolean
   pull_request:
@@ -38,6 +38,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  ARGO_VERSION_FILE: image-url-init-risc-service
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -67,12 +68,14 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '23'
-          architecture: 'x64'
+          distribution: "temurin"
+          java-version: "24"
+          architecture: "x64"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3" # Quotes required to prevent YAML converting to number
 
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v3
@@ -119,7 +122,7 @@ jobs:
       - name: Set output with build values
         id: setOutput
         run: |
-          echo "image_url=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-docker.outputs.digest }}" >> $GITHUB_OUTPUT  
+          echo "image_url=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-docker.outputs.digest }}" >> $GITHUB_OUTPUT
 
   pharos:
     name: Run Pharos on docker image
@@ -133,32 +136,64 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Run Pharos"
-        uses: kartverket/pharos@v0.3.2
+        uses: kartverket/pharos@v0.4.1
         with:
           image_url: ${{ needs.build.outputs.image_url }}
 
-  deploy-to-dev:
-    name: Deploy to dev
-    if: ${{ github.ref == 'refs/heads/main' && (github.event_name != 'workflow_dispatch' || (github.event_name == 'workflow_dispatch' && github.event.inputs.dev == 'true')) }}
+  dev-deploy-argo:
+    name: Deploy to atgcp1-dev
+    if: github.ref == 'refs/heads/main'
     needs: build
-    uses: kartverket/skvis-apps/.github/workflows/update-app-version.yaml@main
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
     permissions:
       id-token: write
-    with:
-      application_name: init-risc-service
-      image_url: ${{ needs.build.outputs.image_url }}
-      environment: dev
-      namespace: sikkerhetsmetrikker-main
+    steps:
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: kartverket/skvis-apps
+          identity: init-risc-service
+      - name: Checkout skvis-apps
+        uses: actions/checkout@v4
+        with:
+          repository: kartverket/skvis-apps
+          ref: main
+          token: ${{ steps.octo-sts.outputs.token }}
+      - name: Update version
+        run: |
+          echo "\"${{ needs.build.outputs.image_url }}\"" > "env/atgcp1-dev/sikkerhetsmetrikker-main/${{ env.ARGO_VERSION_FILE }}"
+          git config --global user.email "noreply@kartverket.no"
+          git config --global user.name "Backstage Plugin Risk Scorecard Backend CI"
+          git commit -am "Update Risk Scorecard Backend"
+          git push
 
-  deploy-to-prod:
-    name: Deploy to prod
-    if: ${{ github.ref == 'refs/heads/main' && (github.event_name != 'workflow_dispatch' || (github.event_name == 'workflow_dispatch' && github.event.inputs.prod == 'true')) }}
+  prod-deploy-argo:
+    name: Deploy to atgcp1-prod
+    if: github.ref == 'refs/heads/main'
     needs: build
-    uses: kartverket/skvis-apps/.github/workflows/update-app-version.yaml@main
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
     permissions:
       id-token: write
-    with:
-      application_name: init-risc-service
-      image_url: ${{ needs.build.outputs.image_url }}
-      environment: prod
-      namespace: sikkerhetsmetrikker-main
+    steps:
+      - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
+        id: octo-sts
+        with:
+          scope: kartverket/skvis-apps
+          identity: init-risc-service
+      - name: Checkout skvis-apps
+        uses: actions/checkout@v4
+        with:
+          repository: kartverket/skvis-apps
+          ref: main
+          token: ${{ steps.octo-sts.outputs.token }}
+      - name: Update version
+        run: |
+          echo "\"${{ needs.build.outputs.image_url }}\"" > "env/atgcp1-prod/sikkerhetsmetrikker-main/${{ env.ARGO_VERSION_FILE }}"
+          git config --global user.email "noreply@kartverket.no"
+          git config --global user.name "Backstage Plugin Risk Scorecard Backend CI"
+          git commit -am "Update Risk Scorecard Backend"
+          git push

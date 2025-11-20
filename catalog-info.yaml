@@ -1,28 +1,29 @@
-# nonk8s
-apiVersion: "backstage.io/v1alpha1"
-kind: "Component"
+apiVersion: backstage.io/v1alpha1
+kind: Component
 metadata:
-  name: "initialize-risc-api"
+  name: initialize-risc
   tags:
-    - "internal"
+    - internal
 spec:
-  type: "service"
-  lifecycle: "production"
-  owner: "skvis"
-  system: "ros-as-code"
+  type: service
+  lifecycle: production
+  owner: skvis
+  system: ros-as-code
   providesApis:
-    - "initialize-risc-api"
+    - initialize-risc-api
+
 ---
-apiVersion: "backstage.io/v1alpha1"
-kind: "API"
+apiVersion: backstage.io/v1alpha1
+kind: API
 metadata:
-  name: "initialize-risc-api"
+  name: initialize-risc-api
   tags:
-    - "internal"
+    - internal
 spec:
-  type: "openapi"
-  lifecycle: "production"
-  owner: "skvis"
+  type: openapi
+  lifecycle: production
+  owner: skvis
+  system: ros-as-code
   definition: |
     openapi: "3.0.0"
     info:
