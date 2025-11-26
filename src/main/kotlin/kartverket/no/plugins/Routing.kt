@@ -1,9 +1,12 @@
 package kartverket.no.plugins
 
+import io.github.smiley4.ktoropenapi.openApi
+import io.github.smiley4.ktorswaggerui.swaggerUI
 import io.ktor.http.ContentType
 import io.ktor.server.application.Application
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
+import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import kartverket.no.descriptor.descriptorRoutes
 import kartverket.no.generate.generateRiScRoutes
@@ -12,6 +15,13 @@ fun Application.configureRouting() {
     routing {
         get("/health") {
             call.respondText("All good!", ContentType.Text.Plain)
+        }
+        route("api.json") {
+            openApi()
+        }
+
+        route("swagger") {
+            swaggerUI("/api.json")
         }
         generateRiScRoutes()
         descriptorRoutes()

@@ -1,14 +1,20 @@
 package kartverket.no.descriptor
+import io.github.smiley4.ktoropenapi.get
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.get
-import io.ktor.server.routing.route
+import kartverket.no.descriptor.model.RiScDescriptor
 
 fun Route.descriptorRoutes() {
-    route("/descriptors") {
-        get {
-            val descriptors = DescriptorService.getAllRiScDescriptors()
-            call.respond(descriptors)
+    get("/descriptors", {
+        tags = listOf("Descriptors")
+        response {
+            code(HttpStatusCode.OK) {
+                body<List<RiScDescriptor>>()
+            }
         }
+    }) {
+        val descriptors = DescriptorService.getAllRiScDescriptors()
+        call.respond(descriptors)
     }
 }

@@ -64,6 +64,13 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
 
+    implementation("io.github.smiley4:ktor-openapi:5.4.0")
+    implementation("io.github.smiley4:ktor-swagger-ui:5.4.0")
+    // Required for ktor-openapi's kotlinx() schema generator - should be transitive but aren't declared in the POM
+    implementation("io.github.smiley4:schema-kenerator-core:2.5.0")
+    implementation("io.github.smiley4:schema-kenerator-serialization:2.5.0")
+    implementation("io.github.smiley4:schema-kenerator-swagger:2.5.0")
+
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 
