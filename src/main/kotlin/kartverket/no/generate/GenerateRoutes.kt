@@ -1,13 +1,12 @@
 package kartverket.no.generate
 
+import io.github.smiley4.ktoropenapi.post
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.requestvalidation.RequestValidation
 import io.ktor.server.plugins.requestvalidation.RequestValidationException
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
-import io.ktor.server.routing.post
-import io.ktor.server.routing.route
 import kartverket.no.generate.model.GenerateRiScRequestBody
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.utils.Validators
@@ -20,23 +19,53 @@ fun Route.generateRiScRoutes() {
         validate<GenerateRiScRequestBody> { Validators.validate(it) }
     }
 
-    route("/generate") {
-        post {
-            try {
-                val requestBody = call.receive<GenerateRiScRequestBody>()
-                val initialRiSc = json.decodeFromString<RiScContent>(requestBody.initialRiSc)
-                val defaultRiScId = requestBody.defaultRiScId
-                call.respond(
-                    GenerateService.generateDefaultRiSc(initialRiSc, defaultRiScId),
-                )
-            } catch (e: RequestValidationException) {
-                return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
-            } catch (e: IllegalArgumentException) {
-                return@post call.respond(
-                    HttpStatusCode.BadRequest,
-                    "Provided value for 'initialRiSc' in request body is not a valid RiSc.",
-                )
+    post("/generate", {
+        tags = listOf("Generate")
+        request {
+            body<GenerateRiScRequestBody> {
+                description = "The request body"
+                required = true
+                example("A valid initial RiSc as JSON") {
+                    value =
+                        GenerateRiScRequestBody(
+                            initialRiSc =
+                                """
+                                {
+                                  "schemaVersion" : "5.1",
+                                  "title" : "Super-RoS",
+                                  "scope" : "Some super cool description",
+                                  "valuations" : [ ],
+                                  "scenarios" : [ ]
+                                }
+                                """.trimIndent(),
+                            defaultRiScId = "reczoRP8bUvNiltXg",
+                        )
+                }
             }
+        }
+        response {
+            code(HttpStatusCode.OK) {
+                body<String> {
+                    description = "The generated RiSc as JSON"
+                }
+            }
+            code(HttpStatusCode.BadRequest) {}
+        }
+    }) {
+        try {
+            val requestBody = call.receive<GenerateRiScRequestBody>()
+            val initialRiSc = json.decodeFromString<RiScContent>(requestBody.initialRiSc)
+            val defaultRiScId = requestBody.defaultRiScId
+            call.respond(
+                GenerateService.generateDefaultRiSc(initialRiSc, defaultRiScId),
+            )
+        } catch (e: RequestValidationException) {
+            return@post call.respond(HttpStatusCode.BadRequest, e.reasons.joinToString())
+        } catch (_: IllegalArgumentException) {
+            return@post call.respond(
+                HttpStatusCode.BadRequest,
+                "Provided value for 'initialRiSc' in request body is not a valid RiSc.",
+            )
         }
     }
 }
