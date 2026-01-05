@@ -8,16 +8,7 @@ data class RiScContent(
     val schemaVersion: String,
     val title: String,
     val scope: String,
-    val valuations: List<RiScValuation> = emptyList(),
     val scenarios: List<RiScScenario>,
-)
-
-@Serializable
-data class RiScValuation(
-    val description: String,
-    val confidentiality: String,
-    val integrity: String,
-    val availability: String,
 )
 
 @Serializable
