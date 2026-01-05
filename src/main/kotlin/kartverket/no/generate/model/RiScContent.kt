@@ -8,7 +8,7 @@ data class RiScContent(
     val schemaVersion: String,
     val title: String,
     val scope: String,
-    val valuations: List<RiScValuation>,
+    val valuations: List<RiScValuation> = emptyList(),
     val scenarios: List<RiScScenario>,
 )
 

@@ -31,10 +31,9 @@ fun Route.generateRiScRoutes() {
                             initialRiSc =
                                 """
                                 {
-                                  "schemaVersion" : "5.1",
+                                  "schemaVersion" : "5.2",
                                   "title" : "Super-RoS",
                                   "scope" : "Some super cool description",
-                                  "valuations" : [ ],
                                   "scenarios" : [ ]
                                 }
                                 """.trimIndent(),
