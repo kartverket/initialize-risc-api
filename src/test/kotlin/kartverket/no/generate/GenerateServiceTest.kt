@@ -9,7 +9,6 @@ import kartverket.no.generate.model.RiScScenario
 import kartverket.no.generate.model.RiScScenarioAction
 import kartverket.no.generate.model.RiScScenarioActionInfo
 import kartverket.no.generate.model.RiScScenarioActionStatus
-import kartverket.no.generate.model.RiScValuation
 import kartverket.no.generate.model.Risk
 import kartverket.no.generate.model.Scenario
 import kartverket.no.generate.model.ThreatActor
@@ -50,7 +49,6 @@ class GenerateServiceTest {
                     schemaVersion = "defaultSchema",
                     title = "DefaultTitle",
                     scope = "DefaultScope",
-                    valuations = emptyList(),
                     scenarios = emptyList(),
                 )
 
@@ -59,15 +57,6 @@ class GenerateServiceTest {
                     schemaVersion = "inputSchema",
                     title = "InputTitle",
                     scope = "InputScope",
-                    valuations =
-                        listOf(
-                            RiScValuation(
-                                description = "desc from input",
-                                confidentiality = "low",
-                                integrity = "low",
-                                availability = "low",
-                            ),
-                        ),
                     scenarios =
                         listOf(
                             RiScScenario(
@@ -105,7 +94,6 @@ class GenerateServiceTest {
             assertEquals("InputTitle", decodedResult.title)
             assertEquals("InputScope", decodedResult.scope)
             assertEquals("defaultSchema", decodedResult.schemaVersion)
-            assertTrue(decodedResult.valuations.isEmpty())
             assertTrue(decodedResult.scenarios.isEmpty())
         }
 }

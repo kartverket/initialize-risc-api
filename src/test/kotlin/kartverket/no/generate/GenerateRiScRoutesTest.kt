@@ -47,7 +47,6 @@ class GenerateRiScRoutesTest {
                 schemaVersion = "1.0",
                 title = "MockTitle",
                 scope = "MockScope",
-                valuations = emptyList(),
                 scenarios = emptyList(),
             )
     }
@@ -66,7 +65,6 @@ class GenerateRiScRoutesTest {
                   "schemaVersion": "1.0",
                   "title": "TestTitle",
                   "scope": "TestScope",
-                  "valuations": [],
                   "scenarios": []
                 }
                 """.trimIndent()
@@ -118,7 +116,6 @@ class GenerateRiScRoutesTest {
                 """
                 {
                   "schemaVersion": "1.0",
-                  "valuations": [],
                   "scenarios": []
                 }
                 """.trimIndent()
