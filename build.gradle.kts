@@ -83,7 +83,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 
     constraints {
-        implementation("org.apache.commons:commons-lang3:3.19.0") {
+        implementation("org.apache.commons:commons-lang3:3.20.0") {
             because("Force secure version to fix CVE in transitive dependency from spring-boot-gradle-plugin")
         }
     }
