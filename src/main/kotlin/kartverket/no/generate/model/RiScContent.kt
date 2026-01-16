@@ -9,6 +9,17 @@ data class RiScContent(
     val title: String,
     val scope: String,
     val scenarios: List<RiScScenario>,
+    @SerialName("metadata_unencrypted") val metadata_unencrypted: MetadataUnencrypted? = null,
+)
+
+@Serializable
+data class MetadataUnencrypted(
+    val backstage: BackstageMetadata,
+)
+
+@Serializable
+data class BackstageMetadata(
+    val entityRef: String?,
 )
 
 @Serializable

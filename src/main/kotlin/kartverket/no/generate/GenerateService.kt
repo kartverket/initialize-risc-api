@@ -16,11 +16,14 @@ object GenerateService {
     suspend fun generateDefaultRiSc(
         initialRiScContent: RiScContent,
         defaultRiScId: String,
-    ): String =
-        generateInitialRiScContent(
-            AirTableClientService.fetchDefaultRiScContent(defaultRiScId),
+    ): String {
+        val fetchedRiScContent = AirTableClientService.fetchDefaultRiScContent(defaultRiScId)
+        val migratedRiScContent = migrateAirtableInitialRiScToNewestVersion(fetchedRiScContent)
+        return generateInitialRiScContent(
+            migratedRiScContent,
             initialRiScContent,
         ).content
+    }
 
     private fun generateInitialRiScContent(
         defaultRiSc: RiScContent,
@@ -31,6 +34,7 @@ object GenerateService {
                 defaultRiSc.copy(
                     title = initialRiScContent.title,
                     scope = initialRiScContent.scope,
+                    metadata_unencrypted = initialRiScContent.metadata_unencrypted,
                 ),
             ),
         )
