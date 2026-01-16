@@ -4,6 +4,8 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
+import kartverket.no.generate.model.BackstageMetadata
+import kartverket.no.generate.model.MetadataUnencrypted
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.generate.model.RiScScenario
 import kartverket.no.generate.model.RiScScenarioAction
@@ -38,7 +40,7 @@ class GenerateServiceTest {
     }
 
     @Test
-    fun `should generate default riSc content with updated title and scope`() =
+    fun `should generate default riSc content with updated title, metadata, and scope`() =
         runTest {
             mockkObject(AirTableClientService)
 
@@ -50,6 +52,7 @@ class GenerateServiceTest {
                     title = "DefaultTitle",
                     scope = "DefaultScope",
                     scenarios = emptyList(),
+                    metadata_unencrypted = MetadataUnencrypted(BackstageMetadata("old")),
                 )
 
             val inputRiSc =
@@ -85,6 +88,7 @@ class GenerateServiceTest {
                                     ),
                             ),
                         ),
+                    metadata_unencrypted = MetadataUnencrypted(BackstageMetadata("component:ros/new")),
                 )
 
             val result = GenerateService.generateDefaultRiSc(inputRiSc, "id")
@@ -94,6 +98,10 @@ class GenerateServiceTest {
             assertEquals("InputTitle", decodedResult.title)
             assertEquals("InputScope", decodedResult.scope)
             assertEquals("defaultSchema", decodedResult.schemaVersion)
+            assertEquals(
+                "component:ros/new",
+                decodedResult.metadata_unencrypted?.backstage?.entityRef,
+            )
             assertTrue(decodedResult.scenarios.isEmpty())
         }
 }
