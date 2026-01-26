@@ -16,13 +16,11 @@ object GenerateService {
     suspend fun generateDefaultRiSc(
         initialRiScContent: RiScContent,
         defaultRiScId: String,
-    ): String {
-        val fetchedRiScContent = AirTableClientService.fetchDefaultRiScContent(defaultRiScId)
-        return generateInitialRiScContent(
-            fetchedRiScContent,
+    ): String =
+        generateInitialRiScContent(
+            AirTableClientService.fetchDefaultRiScContent(defaultRiScId),
             initialRiScContent,
         ).content
-    }
 
     private fun generateInitialRiScContent(
         defaultRiSc: RiScContent,
