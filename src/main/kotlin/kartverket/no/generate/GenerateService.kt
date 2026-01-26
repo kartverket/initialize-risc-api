@@ -18,9 +18,8 @@ object GenerateService {
         defaultRiScId: String,
     ): String {
         val fetchedRiScContent = AirTableClientService.fetchDefaultRiScContent(defaultRiScId)
-        val migratedRiScContent = migrateAirtableInitialRiScToNewestVersion(fetchedRiScContent)
         return generateInitialRiScContent(
-            migratedRiScContent,
+            fetchedRiScContent,
             initialRiScContent,
         ).content
     }
