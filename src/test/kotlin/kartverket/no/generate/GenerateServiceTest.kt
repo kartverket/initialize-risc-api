@@ -48,7 +48,7 @@ class GenerateServiceTest {
                 AirTableClientService.fetchDefaultRiScContent("id")
             } returns
                 RiScContent(
-                    schemaVersion = "5.1",
+                    schemaVersion = "defaultSchema",
                     title = "DefaultTitle",
                     scope = "DefaultScope",
                     scenarios = emptyList(),
@@ -57,7 +57,7 @@ class GenerateServiceTest {
 
             val inputRiSc =
                 RiScContent(
-                    schemaVersion = "5.3",
+                    schemaVersion = "inputSchema",
                     title = "InputTitle",
                     scope = "InputScope",
                     scenarios =
@@ -97,7 +97,7 @@ class GenerateServiceTest {
 
             assertEquals("InputTitle", decodedResult.title)
             assertEquals("InputScope", decodedResult.scope)
-            assertEquals("5.3", decodedResult.schemaVersion)
+            assertEquals("defaultSchema", decodedResult.schemaVersion)
             assertEquals(
                 "component:ros/new",
                 decodedResult.metadata_unencrypted?.backstage?.entityRef,

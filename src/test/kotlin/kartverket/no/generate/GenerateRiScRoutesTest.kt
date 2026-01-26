@@ -44,7 +44,7 @@ class GenerateRiScRoutesTest {
             AirTableClientService.fetchDefaultRiScContent("id")
         } returns
             RiScContent(
-                schemaVersion = "5.3",
+                schemaVersion = "1.0",
                 title = "MockTitle",
                 scope = "MockScope",
                 scenarios = emptyList(),
@@ -62,7 +62,7 @@ class GenerateRiScRoutesTest {
             val validInitialRiSc =
                 """
                 {
-                  "schemaVersion": "5.3",
+                  "schemaVersion": "1.0",
                   "title": "TestTitle",
                   "scope": "TestScope",
                   "scenarios": []
