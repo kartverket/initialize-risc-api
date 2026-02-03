@@ -1,14 +1,14 @@
 val kotlinVersion = "2.2.21"
-val ktorVersion = "3.3.0"
-val logbackVersion = "1.5.20"
-val nettyHandlerVersion = "4.2.7.Final"
+val ktorVersion = "3.3.3"
+val logbackVersion = "1.5.25"
+val nettyHandlerVersion = "4.2.9.Final"
 val junitVersion = "5.13.4"
 val mockkVersion = "1.14.5"
 
 plugins {
-    kotlin("jvm") version "2.2.10"
+    kotlin("jvm") version "2.2.21"
     kotlin("plugin.serialization") version "2.2.21"
-    id("io.ktor.plugin") version "3.3.0"
+    id("io.ktor.plugin") version "3.3.3"
     id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
 }
 
@@ -45,21 +45,21 @@ repositories {
 configurations.all {
     resolutionStrategy.eachDependency {
         if (requested.group == "io.netty" && requested.name == "netty-codec-http2") {
-            useVersion("4.2.4.Final") // Sårbarhet i io.netty:netty-codec-http2. 2025-08-20
+            useVersion("4.2.9.Final") // Sårbarhet i io.netty:netty-codec-http2. 2025-08-20
         }
     }
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
     implementation("io.ktor:ktor-server-request-validation:$ktorVersion")
     implementation("io.ktor:ktor-server-status-pages:$ktorVersion")
-    implementation("io.ktor:ktor-server-config-yaml")
+    implementation("io.ktor:ktor-server-config-yaml:$ktorVersion")
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.netty:netty-handler:$nettyHandlerVersion")
@@ -83,7 +83,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
 
     constraints {
-        implementation("org.apache.commons:commons-lang3:3.19.0") {
+        implementation("org.apache.commons:commons-lang3:3.20.0") {
             because("Force secure version to fix CVE in transitive dependency from spring-boot-gradle-plugin")
         }
     }
