@@ -4,7 +4,6 @@ import io.mockk.coEvery
 import io.mockk.mockkObject
 import kartverket.no.airTable.AirTableClientService
 import kartverket.no.config.AppConfig
-import kartverket.no.generate.model.BackstageMetadata
 import kartverket.no.generate.model.MetadataUnencrypted
 import kartverket.no.generate.model.RiScContent
 import kartverket.no.generate.model.RiScScenario
@@ -52,7 +51,7 @@ class GenerateServiceTest {
                     title = "DefaultTitle",
                     scope = "DefaultScope",
                     scenarios = emptyList(),
-                    metadataUnencrypted = MetadataUnencrypted(BackstageMetadata("old")),
+                    metadataUnencrypted = MetadataUnencrypted(belongsTo = "old"),
                 )
 
             val inputRiSc =
@@ -88,7 +87,7 @@ class GenerateServiceTest {
                                     ),
                             ),
                         ),
-                    metadataUnencrypted = MetadataUnencrypted(BackstageMetadata("component:ros/new")),
+                    metadataUnencrypted = MetadataUnencrypted(belongsTo = "component:ros/new"),
                 )
 
             val result = GenerateService.generateDefaultRiSc(inputRiSc, "id")
@@ -100,7 +99,7 @@ class GenerateServiceTest {
             assertEquals("defaultSchema", decodedResult.schemaVersion)
             assertEquals(
                 "component:ros/new",
-                decodedResult.metadataUnencrypted?.backstage?.entityRef,
+                decodedResult.metadataUnencrypted?.belongsTo,
             )
             assertTrue(decodedResult.scenarios.isEmpty())
         }

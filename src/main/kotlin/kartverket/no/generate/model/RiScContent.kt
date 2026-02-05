@@ -14,12 +14,7 @@ data class RiScContent(
 
 @Serializable
 data class MetadataUnencrypted(
-    val backstage: BackstageMetadata,
-)
-
-@Serializable
-data class BackstageMetadata(
-    val entityRef: String?,
+    val belongsTo: String?,
 )
 
 @Serializable
