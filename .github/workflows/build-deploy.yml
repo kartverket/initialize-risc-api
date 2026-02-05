@@ -165,8 +165,8 @@ jobs:
         run: |
           echo "\"${{ needs.build.outputs.image_url }}\"" > "env/atgcp1-dev/sikkerhetsmetrikker-main/${{ env.ARGO_VERSION_FILE }}"
           git config --global user.email "noreply@kartverket.no"
-          git config --global user.name "Backstage Plugin Risk Scorecard Backend CI"
-          git commit -am "Update Risk Scorecard Backend"
+          git config --global user.name "Initialize risc api CI"
+          git commit -am "Update initialize-risc-api in dev"
           git push
 
   prod-deploy-argo:
@@ -194,6 +194,6 @@ jobs:
         run: |
           echo "\"${{ needs.build.outputs.image_url }}\"" > "env/atgcp1-prod/sikkerhetsmetrikker-main/${{ env.ARGO_VERSION_FILE }}"
           git config --global user.email "noreply@kartverket.no"
-          git config --global user.name "Backstage Plugin Risk Scorecard Backend CI"
-          git commit -am "Update Risk Scorecard Backend"
+          git config --global user.name "Initialize risc api CI"
+          git commit -am "Update initialize-risc-api in prod"
           git push
