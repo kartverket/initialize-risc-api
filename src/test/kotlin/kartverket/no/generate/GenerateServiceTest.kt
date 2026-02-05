@@ -52,7 +52,7 @@ class GenerateServiceTest {
                     title = "DefaultTitle",
                     scope = "DefaultScope",
                     scenarios = emptyList(),
-                    metadata_unencrypted = MetadataUnencrypted(BackstageMetadata("old")),
+                    metadataUnencrypted = MetadataUnencrypted(BackstageMetadata("old")),
                 )
 
             val inputRiSc =
@@ -88,7 +88,7 @@ class GenerateServiceTest {
                                     ),
                             ),
                         ),
-                    metadata_unencrypted = MetadataUnencrypted(BackstageMetadata("component:ros/new")),
+                    metadataUnencrypted = MetadataUnencrypted(BackstageMetadata("component:ros/new")),
                 )
 
             val result = GenerateService.generateDefaultRiSc(inputRiSc, "id")
@@ -100,7 +100,7 @@ class GenerateServiceTest {
             assertEquals("defaultSchema", decodedResult.schemaVersion)
             assertEquals(
                 "component:ros/new",
-                decodedResult.metadata_unencrypted?.backstage?.entityRef,
+                decodedResult.metadataUnencrypted?.backstage?.entityRef,
             )
             assertTrue(decodedResult.scenarios.isEmpty())
         }

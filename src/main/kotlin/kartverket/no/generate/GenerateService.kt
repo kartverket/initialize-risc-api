@@ -31,7 +31,7 @@ object GenerateService {
                 defaultRiSc.copy(
                     title = initialRiScContent.title,
                     scope = initialRiScContent.scope,
-                    metadata_unencrypted = initialRiScContent.metadata_unencrypted,
+                    metadataUnencrypted = initialRiScContent.metadataUnencrypted,
                 ),
             ),
         )

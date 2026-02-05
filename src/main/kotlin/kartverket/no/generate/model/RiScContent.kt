@@ -9,7 +9,7 @@ data class RiScContent(
     val title: String,
     val scope: String,
     val scenarios: List<RiScScenario>,
-    @SerialName("metadata_unencrypted") val metadata_unencrypted: MetadataUnencrypted? = null,
+    @SerialName("metadata_unencrypted") val metadataUnencrypted: MetadataUnencrypted? = null,
 )
 
 @Serializable
