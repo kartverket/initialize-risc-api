@@ -3,7 +3,7 @@ val ktorVersion = "3.3.3"
 val logbackVersion = "1.5.25"
 val nettyHandlerVersion = "4.2.9.Final"
 val junitVersion = "5.13.4"
-val mockkVersion = "1.14.5"
+val mockkVersion = "1.14.7"
 
 plugins {
     kotlin("jvm") version "2.2.21"
